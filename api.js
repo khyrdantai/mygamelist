@@ -1,6 +1,9 @@
+const { MongoClient } = require('mongodb');
+
 // API ENDPOINTS!!!! *****************************
 const client = require('mongodb').MongoClient;
 const app = require('express').Router();
+const mongo = new MongoClient()
 require('dotenv').config();
 
 

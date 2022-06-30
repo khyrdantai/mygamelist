@@ -3,10 +3,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const routes = require('./api');
+const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
 const client = require('mongodb').MongoClient;
 const uri = process.env.MONGODB_URI;
+const mongo = new MongoClient(uri);
 client.connect(uri);
 
 app.use(express.static('public'));
@@ -30,4 +32,4 @@ app.use((req, res, next) =>
 
 app.listen(process.env.PORT); 
 
-module.exports = (app, client);
+module.exports = (app, client, mongo);
