@@ -1,12 +1,26 @@
 import React, { useState } from 'react';
 
-function Login() {
+function Login()
+{
 
     var loginName;
     var loginPassword;
 
-    const [message, setMessage] = useState('');
+    const [message,setMessage] = useState('');
 
+    const app_name = 'cop4331-1234'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production') 
+        {
+            return 'https://' + app_name +  '.herokuapp.com/' + route;
+        }
+        else
+        {        
+            return 'http://localhost:5000/' + route;
+        }
+    }
+    
     const doLogin = async event => 
     {
         event.preventDefault();
@@ -16,7 +30,7 @@ function Login() {
 
         try
         {    
-            const response = await fetch('http://localhost:5000/api/login',
+            const response = await fetch(buildPath('api/login'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             let res = JSON.parse(await response.text());
@@ -41,19 +55,19 @@ function Login() {
         }    
     };
 
-    return (
-        <div id="loginDiv">
-            <form onSubmit={doLogin}>
-                <span id="inner-title">PLEASE LOG IN</span><br />
-                <input type="text" id="loginName" placeholder="Username"
-                    ref={(c) => loginName = c} /> <br />
-                <input type="password" id="loginPassword" placeholder="Password"
-                    ref={(c) => loginPassword = c} /> <br />
-                <input type="submit" id="loginButton" class="buttons" value="Do It"
-                    onClick={doLogin} />
-            </form>
-            <span id="loginResult">{message}</span>
-        </div>
+    return(
+      <div id="loginDiv">
+        <form onSubmit={doLogin}>
+        <span id="inner-title">PLEASE LOG IN</span><br />
+        <input type="text" id="loginName" placeholder="Username" 
+  ref={(c) => loginName = c} /> <br />
+<input type="password" id="loginPassword" placeholder="Password" 
+  ref={(c) => loginPassword = c} /> <br />
+        <input type="submit" id="loginButton" class="buttons" value = "Do It"
+          onClick={doLogin} />
+        </form>
+        <span id="loginResult">{message}</span>
+     </div>
     );
 };
 
