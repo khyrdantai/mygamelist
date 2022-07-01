@@ -13,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
+
 require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGODB_URI;
@@ -32,16 +33,18 @@ app.post('/api/login', async (req, res, next) =>
   const db = client.db("mygamelistDB");
   const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
 
+  let id = -1;
   let fn = '';
   let ln = '';
 
   if( results.length > 0 )
   {
+    id = results[0].UserId;
     fn = results[0].FirstName;
     ln = results[0].LastName;
   }
 
-  let ret = {firstName:fn, lastName:ln};
+  let ret = { id:id, firstName:fn, lastName:ln, error:''};
   res.status(200).json(ret);
 });
 
