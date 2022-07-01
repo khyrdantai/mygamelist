@@ -8,7 +8,7 @@ function Login()
 
     const [message,setMessage] = useState('');
 
-    const app_name = 'cop4331-1234'
+    const app_name = 'my-game-list-front'
     function buildPath(route)
     {
         if (process.env.NODE_ENV === 'production') 
