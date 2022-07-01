@@ -18,7 +18,6 @@ const url = process.env.MONGODB_URI;
 const client = new MongoClient(url);
 client.connect();
 
-
 app.post('/api/login', async (req, res, next) => 
 {
   // incoming: login, password
@@ -45,7 +44,6 @@ app.post('/api/login', async (req, res, next) =>
   let ret = { id:id, firstName:fn, lastName:ln, error:''};
   res.status(200).json(ret);
 });
-
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') 
