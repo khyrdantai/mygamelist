@@ -1,25 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 
-const path = require('path');
-const PORT = process.env.PORT || 5000;
-
-const app = express();
-
-app.set('port', (process.env.PORT || 5000));
-
-app.use(cors());
-app.use(bodyParser.json());
-
-
-
-require('dotenv').config();
-const MongoClient = require('mongodb').MongoClient;
-const url = process.env.MONGODB_URI;
-const client = new MongoClient(url);
-client.connect();
-
+// config folder stuff
+const {connectDB, express, path, PORT, app, client} = require("./backend/config/db");
+connectDB();
 
 app.post('/api/login', async (req, res, next) => 
 {
@@ -44,10 +26,9 @@ app.post('/api/login', async (req, res, next) =>
     ln = results[0].LastName;
   }
 
-  let ret = { id:id, firstName:fn, lastName:ln, error:''};
+  let ret = { id:id, firstName:fn, lastName:ln, error: error};
   res.status(200).json(ret);
 });
-
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') 
@@ -61,7 +42,7 @@ if (process.env.NODE_ENV === 'production')
   });
 }
 
-//app.listen(5000); // start Node + Express server on port 5000
+//start Node + Express server listener
 app.listen(PORT, () => 
 {
   console.log('Server listening on port ' + PORT);

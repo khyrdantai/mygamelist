@@ -25,7 +25,7 @@ function Login()
     {
         event.preventDefault();
 
-        let obj = {login:loginName.value,password:loginPassword.value};
+        let obj = {login:loginName.value, password:loginPassword.value};
         let js = JSON.stringify(obj);
 
         try
@@ -51,7 +51,6 @@ function Login()
         catch(e)
         {
             alert(e.toString());
-            return;
         }    
     };
 
@@ -69,6 +68,6 @@ function Login()
         <span id="loginResult">{message}</span>
      </div>
     );
-};
+}
 
 export default Login;
