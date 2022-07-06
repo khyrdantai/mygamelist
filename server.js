@@ -12,8 +12,8 @@ app.post('/api/login', async (req, res, next) =>
 
   const { login, password } = req.body;
 
-  const db = client.db("mygamelistDB");
-  const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
+  const db = client.db("MyGameListDB");
+  const results = await db.collection('Users').find({login:login,password:password}).toArray();
 
   let id = -1;
   let fn = '';
@@ -21,9 +21,9 @@ app.post('/api/login', async (req, res, next) =>
 
   if( results.length > 0 )
   {
-    id = results[0].UserId;
-    fn = results[0].FirstName;
-    ln = results[0].LastName;
+    id = results[0]._id;
+    fn = results[0].firstName;
+    ln = results[0].lastName;
   }
 
   let ret = { id:id, firstName:fn, lastName:ln, error: error};
