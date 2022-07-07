@@ -1,14 +1,8 @@
 // server requirements to run
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const env = require('dotenv').config();
+const {express, bodyParser, cors, path, env, PORT, app} = require(".../server")
 
 // constants
-const PORT = process.env.PORT || 5000;
 const URL = process.env.MONGODB_URI;
-const app = express();
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;

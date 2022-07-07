@@ -1,33 +1,44 @@
+const express = require('express')
+const router = express.Router()
 
-// NOTE: THIS IS CURRENTLY DOING NOTHING, needs to be exported.
 
-
-const {app, client} = require("../config/db");
-
-app.post('/api/login', async (req, res, next) =>
+router.post('/', async (req, res, next) => 
 {
-    // incoming: login, password
-    // outgoing: id, firstName, lastName, error
+  console.log("we got to the login controller")
+  // incoming: login, password
+  // outgoing: id, firstName, lastName, error
 
-    let error = '';
+  let error = '';
 
-    const { login, password } = req.body;
+  const { login, password } = req.body;
 
-    const db = client.db("MyGameListDB");
-    const results = await db.collection('Users').find({login:login,password:password}).toArray();
+  const db = client.db("MyGameListDB");
+  const results = await db.collection('Users').find({login:login,password:password}).toArray();
 
-    let id = -1;
-    let fn = '';
-    let ln = '';
+  let id = -1;
+  let fn = '';
+  let ln = '';
 
-    if( results.length > 0 )
-    {
-        id = results[0].UserId;
-        fn = results[0].FirstName;
-        ln = results[0].LastName;
-    }
+  if( results.length > 0 )
+  {
+    id = results[0]._id;
+    fn = results[0].firstName;
+    ln = results[0].lastName;
+  }
 
-    let ret = { id:id, firstName:fn, lastName:ln, error: error};
-    res.status(200).json(ret);
+  let ret = { id:id, firstName:fn, lastName:ln, error: error};
+  res.status(200).json(ret);
 });
 
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production') 
+{
+  // Set static folder
+  app.use(express.static('frontend/build'));
+
+  app.get('*', (req, res) => 
+ {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
+module.exports = router
