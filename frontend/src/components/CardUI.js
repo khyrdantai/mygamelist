@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 
 function CardUI()
 {
@@ -94,21 +95,28 @@ function buildPath(route)
         }
     };
 
+    const goToHome = async event => 
+    {
+        window.location.href = '/';
+    }
+
     return(
-<div id="cardUIDiv">
-  <br />
-  <input type="text" id="searchText" placeholder="Card To Search For" 
-    ref={(c) => search = c} />
-  <button type="button" id="searchCardButton" class="buttons" 
-    onClick={searchCard}> Search Card</button><br />
-  <span id="cardSearchResult">{searchResults}</span>
-  <p id="cardList">{cardList}</p><br /><br />
-  <input type="text" id="cardText" placeholder="Card To Add" 
-    ref={(c) => card = c} />
-  <button type="button" id="addCardButton" class="buttons" 
-    onClick={addCard}> Add Card </button><br />
-  <span id="cardAddResult">{message}</span>
-</div>
+    <div id="cardUIDiv">
+    <br />
+        <Button type="submit" variant="dark" class="buttons"
+        onClick={goToHome}>Back to homepage?</Button><br/>
+    <input type="text" id="searchText" placeholder="Card To Search For" 
+        ref={(c) => search = c} />
+    <button type="button" id="searchCardButton" class="buttons" 
+        onClick={searchCard}> Search Card</button><br />
+    <span id="cardSearchResult">{searchResults}</span>
+    <p id="cardList">{cardList}</p><br /><br />
+    <input type="text" id="cardText" placeholder="Card To Add" 
+        ref={(c) => card = c} />
+    <button type="button" id="addCardButton" class="buttons" 
+        onClick={addCard}> Add Card </button><br />
+    <span id="cardAddResult">{message}</span>
+    </div>
     );
 }
 
