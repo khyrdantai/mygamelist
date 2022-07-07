@@ -1,5 +1,5 @@
 // server requirements to run
-const {express, bodyParser, cors, path, env, PORT, app} = require(".../server")
+const {express, bodyParser, cors, path, env, PORT, app} = require('../../server')
 
 // constants
 const URL = process.env.MONGODB_URI;
@@ -24,4 +24,4 @@ const connectDB = async ()=>{
     }
 }
 
-module.exports = {connectDB, express, bodyParser, cors, path, env, PORT, URL, app, client};
+module.exports(connectDB);
