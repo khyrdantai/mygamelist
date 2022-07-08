@@ -38,20 +38,20 @@ app.post('/api/register', async (req, res, next) =>{
   let error = ''
 
   // new user data
-  var item = {
-    _id: new mongoose.Types.ObjectId(),
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    login: req.body.login,
-    password: req.body.password,
-    email: req.body.email   
-  };
+  
+  let  _id = new mongoose.Types.ObjectId()
+  let  firstName = req.body.firstName
+  let  lastName = req.body.lastName
+  let  login = req.body.login
+  let  password = req.body.password
+  let  email = req.body.email   
+  
   
   //gettin an error here that login is
   const db = client.db("MyGameListDB");
 
   // insert new user into database
-  const add_user = await db.collection('Users').insertOne(item)
+  const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,login:login,password:password,email:email})
   
   res.status(200).json({
     message: "added new user"
