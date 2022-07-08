@@ -25,9 +25,10 @@ app.post('/api/login', async (req, res, next) =>
     id = results[0]._id;
     fn = results[0].firstName;
     ln = results[0].lastName;
+    un = results[0].login;
   }
 
-  let ret = { id:id, firstName:fn, lastName:ln, error: error};
+  let ret = { id:id, firstName:fn, lastName:ln, userName:un, error: error};
   res.status(200).json(ret);
 });
 

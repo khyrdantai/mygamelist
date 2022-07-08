@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 
 function CardUI()
 {
@@ -15,9 +16,21 @@ function CardUI()
 
     let _ud = localStorage.getItem('user_data');
     let ud = JSON.parse(_ud);
-    let userId = ud.id;
-    let firstName = ud.firstName;
-    let lastName = ud.lastName;
+    let userId;
+    let firstName;
+    let lastName;
+
+    if(ud)
+    {
+        userId = ud.id;
+        firstName = ud.firstName;
+        lastName = ud.lastName;   
+    }
+    else
+    {
+
+    }
+    
 	
 const app_name = 'cop4331-1234'
 function buildPath(route)
@@ -121,27 +134,82 @@ function buildPath(route)
         }
     };
 
+    const goToHome = async event => 
+    {
+        window.location.href = '/';
+    }
+    const goToLogin = async event => 
+    {
+        window.location.href = '/login';
+    }
+
+
+    let dynamic_game_search;
+    
+
+    if(ud)
+    {
+        //alert("what now: ");
+        dynamic_game_search = 
+
+        <div id="cardUIDiv">
+            <br />
+                <Button type="submit" variant="dark" class="buttons"
+                onClick={goToHome}>Back to homepage?</Button><br/>
+            <input type="text" id="searchText" placeholder="Card To Search For" 
+                ref={(c) => search = c} />
+            <button type="button" id="searchCardButton" class="buttons" 
+                onClick={searchCard}> Search Game</button><br />
+            <span id="cardSearchResult">{searchResults}</span>
+            <p id="cardList">{cardList}</p><br /><br />
+            <input type="text" id="cardText" placeholder="Card To Add" 
+                ref={(c) => card = c} />
+            <button type="button" id="addCardButton" class="buttons" 
+                onClick={addCard}> Add Card </button><br />
+            <span id="cardAddResult">{message}</span>
+            <input type="text" id="requestSteamIDText" placeholder="Enter your Steam ID" 
+                ref={(c) => steamId = c} />
+            <button type="button" id="requestSteamIDBtn" class="buttons" 
+                onClick={getGamesList}> Get Games </button><br /> 
+            <span id="gamesListResult">{message}</span>
+            <p id="gamesList">{gamesList}</p>
+            </div>
+
+
+    }
+    else
+    {
+        //alert("what then?");
+        
+        dynamic_game_search = 
+
+        <div id="cardUIDiv">
+            <br />
+                <Button type="submit" variant="dark" class="buttons"
+                onClick={goToHome}>Back to homepage?</Button><br/><br/>
+                <Button type="submit" variant="dark" class="buttons"
+                onClick={goToLogin}>Sign In maybe?</Button><br/><br/>
+            <input type="text" id="searchText" placeholder="Card To Search For" 
+                ref={(c) => search = c} />
+            <button type="button" id="searchCardButton" class="buttons" 
+                onClick={searchCard}> Search Game</button><br />
+            <span id="cardSearchResult">{searchResults}</span>
+            <p id="cardList">{cardList}</p><br /><br />
+            <input type="text" id="cardText" placeholder="Card To Add" 
+                ref={(c) => card = c} />
+            <button type="button" id="addCardButton" class="buttons" 
+                onClick={addCard}> Add Card </button><br />
+            <span id="cardAddResult">{message}</span>
+        </div>
+       
+    }
+
+
+
     return(
-<div id="cardUIDiv">
-  <br />
-  <input type="text" id="searchText" placeholder="Card To Search For" 
-    ref={(c) => search = c} />
-  <button type="button" id="searchCardButton" class="buttons" 
-    onClick={searchCard}> Search Card</button><br />
-  <span id="cardSearchResult">{searchResults}</span>
-  <p id="cardList">{cardList}</p><br /><br />
-  <input type="text" id="cardText" placeholder="Card To Add" 
-    ref={(c) => card = c} />
-  <button type="button" id="addCardButton" class="buttons" 
-    onClick={addCard}> Add Card </button><br /><br />
-  <span id="cardAddResult">{message}</span>
-  <input type="text" id="requestSteamIDText" placeholder="Enter your Steam ID" 
-    ref={(c) => steamId = c} />
-  <button type="button" id="requestSteamIDBtn" class="buttons" 
-    onClick={getGamesList}> Get Games </button><br /> 
-  <span id="gamesListResult">{message}</span>
-  <p id="gamesList">{gamesList}</p>
-</div>
+    <div>
+        {dynamic_game_search}
+    </div>
     );
 }
 
