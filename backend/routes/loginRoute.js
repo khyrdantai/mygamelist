@@ -18,6 +18,7 @@ login_router.post('/', async (req, res) => {
     let fn = '';
     let ln = '';
     let un = '';
+    let local_email = '';
 
     if( results.length > 0 )
     {
@@ -25,9 +26,10 @@ login_router.post('/', async (req, res) => {
       fn = results[0].firstName;
       ln = results[0].lastName;
       un = results[0].login;
+      local_email = results[0].email;
     }
 
-    let ret = { id:id, firstName:fn, lastName:ln, userName:un, error: error};
+    let ret = { id:id, firstName:fn, lastName:ln, userName:un, email:local_email, error: error};
     res.status(200).json(ret);
   });
 
