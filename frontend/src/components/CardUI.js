@@ -5,10 +5,13 @@ function CardUI()
     
     let card = '';
     let search = '';
+    let steamId = '';
 
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [cardList,setCardList] = useState('');
+    const [gamesList,setGamesList] = useState('');
+
 
     let _ud = localStorage.getItem('user_data');
     let ud = JSON.parse(_ud);
@@ -94,6 +97,42 @@ function buildPath(route)
         }
     };
 
+    const getGamesList = async event => 
+    {
+        event.preventDefault();
+        
+        let obj = {userId:userId,steamId:steamId.value};
+        let js = JSON.stringify(obj);
+
+        try
+        {
+            const response = await fetch(buildPath('api/getSteamGames'),
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+
+            let txt = await response.text();
+            let res = JSON.parse(txt);
+            
+            let _results = res.results;
+            let resultText = '';
+            
+            for( var i=0; i<_results.length; i++ )
+            {
+                resultText += _results[i];
+                if( i < _results.length - 1 )
+                {
+                    resultText += ', ';
+                }
+            }
+            setResults('Steam games have been retrieved');
+            setGamesList(resultText);
+        }
+        catch(e)
+        {
+            alert(e.toString());
+            setResults(e.toString());
+        }
+    };
+
     return(
 <div id="cardUIDiv">
   <br />
@@ -106,8 +145,14 @@ function buildPath(route)
   <input type="text" id="cardText" placeholder="Card To Add" 
     ref={(c) => card = c} />
   <button type="button" id="addCardButton" class="buttons" 
-    onClick={addCard}> Add Card </button><br />
+    onClick={addCard}> Add Card </button><br /><br />
   <span id="cardAddResult">{message}</span>
+  <input type="text" id="requestSteamIDText" placeholder="Enter your Steam ID" 
+    ref={(c) => steamId = c} />
+  <button type="button" id="requestSteamIDBtn" class="buttons" 
+    onClick={getGamesList}> Get Games </button><br /> 
+  <span id="gamesListResult">{message}</span>
+  <p id="gamesList">{gamesList}</p>
 </div>
     );
 }
