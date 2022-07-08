@@ -7,7 +7,7 @@ const env = require('dotenv').config();
 const request = require('request');
 
 // constants
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 const URL = process.env.MONGODB_URI;
 const app = express();
 const STEAM_WEB_API_KEY = process.env.STEAM_WEB_API_KEY;

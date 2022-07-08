@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/Button';
 function Login()
 {
 
-    var loginName;
-    var loginPassword;
+    let loginName;
+    let loginPassword;
 
     const [message,setMessage] = useState('');
 
