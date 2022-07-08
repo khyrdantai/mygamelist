@@ -1,6 +1,7 @@
+const request = require('request');
 
 // config folder stuff
-const {connectDB, express, path, PORT, app, client} = require("./backend/config/db");
+const {connectDB, express, path, port, steamWebApiKey, app, client} = require("./backend/config/db");
 connectDB();
 
 app.post('/api/login', async (req, res, next) => 
@@ -31,6 +32,19 @@ app.post('/api/login', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+app.post('/api/getSteamGames', async (req, res) => 
+{
+  // incoming: userId, steamId
+  // outgoing: appId, playtime
+  const url = 'https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?'
+              + 'key=' + steamWebApiKey + '&steamid=' + req.body.steamId;
+
+  request.get(url, function(error, response, data) {
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(data);
+  });
+});
+
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production') 
 {
@@ -44,7 +58,7 @@ if (process.env.NODE_ENV === 'production')
 }
 
 //start Node + Express server listener
-app.listen(PORT, () => 
+app.listen(port, () => 
 {
-  console.log('Server listening on port ' + PORT);
+  console.log('Server listening on port ' + port);
 });

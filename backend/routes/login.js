@@ -32,5 +32,5 @@ app.post('/api/login', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
-export default login;
+
 
