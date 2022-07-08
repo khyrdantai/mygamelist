@@ -6,18 +6,19 @@ const path = require('path');
 const env = require('dotenv').config();
 
 // constants
-const PORT = process.env.PORT || 5000;
-const URL = process.env.MONGODB_URI;
+const port = process.env.PORT || 5000;
+const url = process.env.MONGODB_URI;
+const steamWebApiKey = process.env.STEAM_WEB_API_KEY;
 const app = express();
 
 // database stuff
 const MongoClient = require('mongodb').MongoClient;
-const client = new MongoClient(URL);
+const client = new MongoClient(url);
 
 const connectDB = async ()=>{
     try {
         // initialize
-        app.set('port', PORT);
+        app.set('port', port);
         app.use(cors());
         app.use(bodyParser.json());
 
@@ -30,4 +31,4 @@ const connectDB = async ()=>{
     }
 }
 
-module.exports = {connectDB, express, bodyParser, cors, path, env, PORT, URL, app, client};
+module.exports = {connectDB, express, bodyParser, cors, path, env, port, steamWebApiKey, url, app, client};
