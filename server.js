@@ -1,9 +1,11 @@
 const request = require('request');
+const mongoose = require('mongoose');
 
 // config folder stuff
 const {connectDB, express, path, PORT, app, client} = require("./backend/config/db");
 connectDB();
 
+//login api
 app.post('/api/login', async (req, res, next) => 
 {
   // incoming: login, password
@@ -31,6 +33,27 @@ app.post('/api/login', async (req, res, next) =>
   res.status(200).json(ret);
 });
 
+//register api
+app.post('/api/register', async (req, res, next) =>{
+  let error = ''
+  var item = {
+    _id: new mongoose.Types.ObjectId(),
+    firstName: req.body.firstname,
+    lastName: req.body.lastname,
+    login: req.body.login,
+    password: req.body.password,
+    email: req.body.email   
+};
+
+  const db = client.db("MyGameListDB");
+
+  const add_user = await db.collection('Users').insertOne({item})
+  
+  res.status(200);
+
+})
+
+//steam api post
 app.post('/api/getSteamGames', async (req, res) => 
 {
   // incoming: userId, steamId
