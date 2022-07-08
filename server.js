@@ -1,3 +1,4 @@
+const request = require('request');
 
 // config folder stuff
 const {connectDB, express, path, PORT, app, client} = require("./backend/config/db");
@@ -28,6 +29,19 @@ app.post('/api/login', async (req, res, next) =>
 
   let ret = { id:id, firstName:fn, lastName:ln, error: error};
   res.status(200).json(ret);
+});
+
+app.post('/api/getSteamGames', async (req, res) => 
+{
+  // incoming: userId, steamId
+  // outgoing: appId, playtime
+  const url = 'https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?'
+              + 'key=' + steamWebApiKey + '&steamid=' + req.body.steamId;
+
+  request.get(url, function(steamHttpBody) {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(steamHttpBody);
+  });
 });
 
 // Server static assets if in production
