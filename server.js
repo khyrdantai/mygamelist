@@ -1,6 +1,6 @@
 
 // config folder stuff
-const {connectDB, express, path, port, app} = require("./backend/config/db");
+const {connectDB, express, path, PORT, app} = require("./backend/config/db");
 connectDB();
 
 
@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production')
 }
 
 //start Node + Express server listener
-app.listen(port, () => 
+app.listen(PORT, () =>
 {
-  console.log('Server listening on port ' + port);
+  console.log('Server listening on port ' + PORT);
 });
