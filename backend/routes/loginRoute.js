@@ -1,15 +1,11 @@
 // server requirements to run
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const env = require('dotenv').config();
-const request = require('request');
+const login_router = express.Router()
 
-const {app} = require("../db");
+const {client} = require("../db");
 
 //login api
-app.post('/api/login', async (req, res, next) => 
+login_router.post('/', async (req, res, next) => 
 {
   // incoming: login, password
   // outgoing: id, firstName, lastName, error
@@ -35,3 +31,5 @@ app.post('/api/login', async (req, res, next) =>
   let ret = { id:id, firstName:fn, lastName:ln, error: error};
   res.status(200).json(ret);
 });
+
+module.exports = login_router
