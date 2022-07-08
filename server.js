@@ -19,6 +19,7 @@ app.post('/api/login', async (req, res, next) =>
   let id = -1;
   let fn = '';
   let ln = '';
+  let un = '';
 
   if( results.length > 0 )
   {
