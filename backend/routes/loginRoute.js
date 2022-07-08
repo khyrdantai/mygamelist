@@ -1,14 +1,9 @@
-// server requirements to run
-const express = require('express');
+// local modules
+const {client, express} = require("../db");
 const login_router = express.Router()
 
-const {client} = require("../db");
-
 //login api
-login_router.post('/', async (req, res, next) => 
-{
-  // incoming: login, password
-  // outgoing: id, firstName, lastName, error
+login_router.post('/', async (req, res) => {
 
   let error = '';
 

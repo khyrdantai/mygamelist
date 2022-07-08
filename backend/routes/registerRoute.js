@@ -1,7 +1,10 @@
-// server requirements to run
+// public modules
+const express = require('express')
 const mongoose = require('mongoose');
+const register_router = express.Router()
+
+// local modules
 const {app, client} = require("../db");
-const register_router = require('./loginRoute');
 
 //register api
 register_router.post('/api/register', async (req, res) =>{
@@ -18,6 +21,7 @@ register_router.post('/api/register', async (req, res) =>{
   
     // insert new user into database
     const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,login:login,password:password,email:email})
+    
     res.status(200).json({
       message: "Registered new user"
     });
