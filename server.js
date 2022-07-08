@@ -47,11 +47,11 @@ app.post('/api/register', async (req, res, next) =>{
     email: req.body.email   
   };
   
-  //gettin an error here that login is not defined?
+  //gettin an error here that login is
   const db = client.db("MyGameListDB");
 
   // insert new user into database
-  const add_user = await db.collection('Users').insertOne({item})
+  const add_user = await db.collection('Users').insertOne(item)
   
   res.status(200).json({
     message: "added new user"
