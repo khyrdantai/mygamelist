@@ -7,7 +7,7 @@ const register_router = express.Router()
 const {app, client} = require("../db");
 
 //register api
-register_router.post('/api/register', async (req, res) =>{
+register_router.post('/', async (req, res) =>{
 
     // new user data    
     let  _id = new mongoose.Types.ObjectId()

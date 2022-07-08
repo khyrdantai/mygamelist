@@ -13,6 +13,8 @@ connectDB();
 app.use('/api/login', require('./backend/routes/loginRoute'))
 app.use('/api/register', require('./backend/routes/registerRoute'))
 
+
+
 //start Node + Express server listener
 app.listen(PORT, () => 
 {
