@@ -32,10 +32,6 @@ const connectDB = async ()=>{
     }
 }
 
-// api routes imports
-require( '../routes/login');
-require('../routes/steam');
-
 // exports
 module.exports = {
     connectDB,
