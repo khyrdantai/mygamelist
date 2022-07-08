@@ -30,4 +30,20 @@ const connectDB = async ()=>{
     }
 }
 
-module.exports = {connectDB, express, bodyParser, cors, path, env, PORT, URL, app, client};
+// api routes imports
+import '../routes/login'
+import '../routes/steam'
+
+// exports
+module.exports = {
+    connectDB, 
+    express, 
+    bodyParser, 
+    cors, 
+    path, 
+    env, 
+    PORT, 
+    URL, 
+    app, 
+    client
+};
