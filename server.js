@@ -50,10 +50,12 @@ app.post('/api/register', async (req, res, next) =>{
   //set db
   const db = client.db("MyGameListDB");
 
-  // 
+  // insert new user into database
   const add_user = await db.collection('Users').insertOne({item})
   
-  res.status(200);
+  res.status(200).json({
+    message: "added new user"
+  });
 
 })
 
