@@ -111,20 +111,8 @@ function buildPath(route)
 
             let txt = await response.text();
             let res = JSON.parse(txt);
-            
-            let _results = res.results;
-            let resultText = '';
-            
-            for( var i=0; i<_results.length; i++ )
-            {
-                resultText += _results[i];
-                if( i < _results.length - 1 )
-                {
-                    resultText += ', ';
-                }
-            }
-            setResults('Steam games have been retrieved');
-            setGamesList(resultText);
+            console.log(res);
+            alert('Steam games have been retrieved');
         }
         catch(e)
         {
