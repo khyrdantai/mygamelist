@@ -36,17 +36,21 @@ app.post('/api/login', async (req, res, next) =>
 //register api
 app.post('/api/register', async (req, res, next) =>{
   let error = ''
+
+  // new user data
   var item = {
     _id: new mongoose.Types.ObjectId(),
-    firstName: req.body.firstname,
-    lastName: req.body.lastname,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     login: req.body.login,
     password: req.body.password,
     email: req.body.email   
-};
-
+  };
+  
+  //set db
   const db = client.db("MyGameListDB");
 
+  // 
   const add_user = await db.collection('Users').insertOne({item})
   
   res.status(200);
