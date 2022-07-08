@@ -3,6 +3,8 @@
 const {connectDB, express, path, PORT, app, client, STEAM_WEB_API_KEY, request} = require("./backend/config/db");
 connectDB();
 
+const mongoose = require('mongoose');
+
 app.post('/api/login', async (req, res, next) =>
 {
     // incoming: login, password
@@ -31,6 +33,32 @@ app.post('/api/login', async (req, res, next) =>
     let ret = { id:id, firstName:fn, lastName:ln, userName:un, error: error};
     res.status(200).json(ret);
 });
+
+//register api
+app.post('/api/register', async (req, res, next) =>{
+    let error = ''
+
+    // new user data
+
+    let  _id = new mongoose.Types.ObjectId()
+    let  firstName = req.body.firstName
+    let  lastName = req.body.lastName
+    let  login = req.body.login
+    let  password = req.body.password
+    let  email = req.body.email
+
+
+    //gettin an error here that login is
+    const db = client.db("MyGameListDB");
+
+    // insert new user into database
+    const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,login:login,password:password,email:email})
+
+    res.status(200).json({
+        message: "added new user"
+    });
+
+})
 
 app.post('/api/getSteamGames', async (req, res) => {
     // incoming: userId, steamId
