@@ -1,6 +1,6 @@
 // public modules
 const express = require('express')
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const register_router = express.Router()
 
 // local modules
@@ -10,7 +10,7 @@ const {app, client} = require("../db");
 register_router.post('/', async (req, res) =>{
 
     // new user data    
-    let  _id = new mongoose.Types.ObjectId()
+    //let  _id = new mongoose.Types.ObjectId()
     let  firstName = req.body.firstName
     let  lastName = req.body.lastName
     let  login = req.body.login
@@ -28,4 +28,4 @@ register_router.post('/', async (req, res) =>{
   
   })
 
-  module.exports = register_router
+module.exports = register_router
