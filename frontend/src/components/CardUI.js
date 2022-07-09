@@ -120,7 +120,7 @@ function CardUI()
         try
         {
             const response = await fetch(buildPath('api/Steam/getSteamGames'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                {method:'POST', mode: 'cors',body:js,headers:{'Content-Type': 'application/json'}});
 
             let txt = await response.text();
             let res = JSON.parse(txt);
@@ -140,7 +140,7 @@ function CardUI()
     const getGameNames = async (appIdList) => 
     {
         const response = await fetch(buildPath('api/Steam/getAllGames'),
-            {method:'GET'});
+            {method:'GET', mode: 'cors'});
 
         let txt = await response.text();
         let gamesList = JSON.parse(txt);
