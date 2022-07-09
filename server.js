@@ -12,7 +12,7 @@ connectDB();
 
 app.use('/api/login', require('./backend/routes/loginRoute'))
 app.use('/api/register', require('./backend/routes/registerRoute'))
-
+app.use('/api/steam', require('./backend/routes/steamRoute'))
 
 
 //start Node + Express server listener

@@ -119,7 +119,7 @@ function CardUI()
 
         try
         {
-            const response = await fetch(buildPath('api/getSteamGames'),
+            const response = await fetch(buildPath('api/steam/getSteamGames'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             let txt = await response.text();

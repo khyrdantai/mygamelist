@@ -5,11 +5,12 @@ const cors = require('cors');
 const path = require('path');
 const env = require('dotenv').config();
 const request = require('request');
+const steam_router = express.Router()
 
 const{app, STEAM_WEB_API_KEY} = require("../db");
 
 //steam api post
-app.post('/api/getSteamGames', async (req, res) => 
+steam_router.post('/api/getSteamGames', async (req, res) => 
 {
   // incoming: userId, steamId
   // outgoing: appId, playtime
@@ -33,3 +34,5 @@ if (process.env.NODE_ENV === 'production')
     res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
   });
 }
+
+module.exports = steam_router
