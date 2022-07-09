@@ -119,12 +119,15 @@ function CardUI()
 
         try
         {
-            const response = await fetch(buildPath('api/getSteamGames'),
+            const response = await fetch(buildPath('api/Steam/getSteamGames'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             let txt = await response.text();
             let res = JSON.parse(txt);
-            console.log(res);
+
+            let fullList = await getGameNames(res);
+
+            console.log(fullList);
             alert('Steam games have been retrieved');
         }
         catch(e)
@@ -133,6 +136,35 @@ function CardUI()
             setResults(e.toString());
         }
     };
+
+    const getGameNames = async (appIdList) => 
+    {
+        const response = await fetch(buildPath('api/Steam/getAllGames'),
+            {method:'GET'});
+
+        let txt = await response.text();
+        let gamesList = JSON.parse(txt);
+        let parsedGames = await parseGameNames(appIdList, gamesList)
+
+        return parsedGames;
+    }
+
+    
+    const parseGameNames = (appIdList, gamesList) =>
+    {
+        let parsedGames = [];
+
+        appIdList.response.games.filter(function(game1) {
+            let temp = gamesList.applist.apps.find((game2) => game1.appid === game2.appid);
+
+            if (typeof(temp) === 'object') 
+            {
+                parsedGames.push(temp.name);
+            }
+        });
+
+        return parsedGames;
+    }
 
     const goToHome = async event =>
     {

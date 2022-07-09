@@ -1,19 +1,14 @@
-// server requirements to run
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const env = require('dotenv').config();
-const request = require('request');
+const loginModel = require('./backend/routes/loginRoute');
+const registerModel = require('./backend/routes/registerRoute');
+const steamModel = require('./backend/routes/steamRoute');
 
 // config folder stuff
 const {connectDB, app, PORT} = require("./backend/db");
 connectDB();
 
-app.use('/api/login', require('./backend/routes/loginRoute'))
-app.use('/api/register', require('./backend/routes/registerRoute'))
-
-
+app.use('/api/login', loginModel)
+app.use('/api/register', registerModel)
+app.use('/api/Steam', steamModel)
 
 //start Node + Express server listener
 app.listen(PORT, () => 
