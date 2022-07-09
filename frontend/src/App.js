@@ -8,7 +8,12 @@ import LoginPage from './pages/LoginPage';
 import CardPage from './pages/CardPage';
 import MainPage from './pages/MainPage';
 
+
+
 function App() {
+
+  
+
   return (
       <BrowserRouter>
         <Routes>

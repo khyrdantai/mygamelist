@@ -92,7 +92,7 @@ function Login()
         <input type="password" id="loginPassword" placeholder="Password" 
         ref={(c) => loginPassword = c} /> <br />
         <Button type="submit" variant="dark" id="loginButton" class="buttons"
-          onClick={doLogin}>button</Button>{'hello'}
+          onClick={doLogin}>button</Button>{'hellooooo'}
         </form>
         <span id="loginResult">{message}</span>
      </div>
@@ -100,19 +100,7 @@ function Login()
 
 
     return(
-    //   <div id="loginDiv">
-    //     <Button type="submit">Button</Button>{' '}
-    //     <form onSubmit={doLogin}>
-    //     <span id="inner-title">PLEASE LOG IN</span><br />
-    //     <input type="text" id="loginName" placeholder="Username" 
-    //     ref={(c) => loginName = c} /> <br />
-    //     <input type="password" id="loginPassword" placeholder="Password" 
-    //     ref={(c) => loginPassword = c} /> <br />
-    //     <Button type="submit" variant="dark" id="loginButton" class="buttons"
-    //       onClick={doLogin}>button</Button>{'hello'}
-    //     </form>
-    //     <span id="loginResult">{message}</span>
-    //  </div>
+   
         <div>
             {dynamicLogin}
         </div>
