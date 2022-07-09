@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import LoggedInName from '../components/LoggedInName';
+import ModalComponent from './Modals/ModalComponent';
+import LoginModal from './Modals/LoginModal';
+import RegisterModal from './Modals/RegisterModal';
+
 
 
 function MainLogin()
@@ -35,24 +39,44 @@ function MainLogin()
             <span id="inner-title">Welcome to teh homepage</span><br />
             <Button type="submit" variant="dark" class="buttons"
             onClick={goToLogin}>Sign In maybe?</Button>
+            <br/><br/>
+
+            {/* login */}
+
+            <ModalComponent
+                buttonType ={"Login"}
+                title={"Login"}
+                body={""}
+                bodyModal = 
+                {
+                    <div>
+                        <LoginModal/>
+                    </div>
+                    
+                }
+            />
+
+            <br/>
+            {/* register */}
+
+            <ModalComponent
+                buttonType ={"Register"}
+                title={"Register"}
+                body={""}
+                bodyModal = 
+                {
+                    <div>
+                        <RegisterModal/>
+                    </div>
+                }
+            />
+            
         </div>
     }
 
 
     return(
-    //   <div id="loginDiv">
-    //     <Button type="submit">Button</Button>{' '}
-    //     <form onSubmit={doLogin}>
-    //     <span id="inner-title">PLEASE LOG IN</span><br />
-    //     <input type="text" id="loginName" placeholder="Username" 
-    //     ref={(c) => loginName = c} /> <br />
-    //     <input type="password" id="loginPassword" placeholder="Password" 
-    //     ref={(c) => loginPassword = c} /> <br />
-    //     <Button type="submit" variant="dark" id="loginButton" class="buttons"
-    //       onClick={doLogin}>button</Button>{'hello'}
-    //     </form>
-    //     <span id="loginResult">{message}</span>
-    //  </div>
+
         <div>
             {dynamicMain}
         </div>
