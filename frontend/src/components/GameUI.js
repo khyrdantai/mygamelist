@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 
-function CardUI()
+function GameUI()
 {
 
-    let card = '';
+    let game = '';
     let search = '';
     let steamId = '';
 
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
-    const [cardList,setCardList] = useState('');
+    const [gameList,setGameList] = useState('');
     const [gamesList,setGamesList] = useState('');
 
 
@@ -32,7 +32,7 @@ function CardUI()
     }
 
 
-    const app_name = 'cop4331-1234'
+    const app_name = 'my-game-list-front'
     function buildPath(route)
     {
         if (process.env.NODE_ENV === 'production')
@@ -41,20 +41,20 @@ function CardUI()
         }
         else
         {
-            return 'http://localhost:5000/' + route;
+            return 'http://localhost:3000/' + route;
         }
     }
 
-    const addCard = async event =>
+    const addGame = async event =>
     {
         event.preventDefault();
 
-        let obj = {userId:userId,card:card.value};
+        let obj = {userId:userId,game:game.value};
         let js = JSON.stringify(obj);
 
         try
         {
-            const response = await fetch(buildPath('api/addcard'),
+            const response = await fetch(buildPath('api/addgame'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             let txt = await response.text();
@@ -66,7 +66,7 @@ function CardUI()
             }
             else
             {
-                setMessage('Card has been added');
+                setMessage('Game has been added');
             }
         }
         catch(e)
@@ -76,7 +76,7 @@ function CardUI()
 
     };
 
-    const searchCard = async event =>
+    const searchGame = async event =>
     {
         event.preventDefault();
 
@@ -85,7 +85,7 @@ function CardUI()
 
         try
         {
-            const response = await fetch(buildPath('api/searchcards'),
+            const response = await fetch(buildPath('api/searchgames'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             let txt = await response.text();
@@ -100,8 +100,8 @@ function CardUI()
                     resultText += ', ';
                 }
             }
-            setResults('Card(s) have been retrieved');
-            setCardList(resultText);
+            setResults('Game(s) have been retrieved');
+            setGameList(resultText);
         }
         catch(e)
         {
@@ -184,21 +184,21 @@ function CardUI()
         //alert("what now: ");
         dynamic_game_search =
 
-            <div id="cardUIDiv">
+            <div id="gameUIDiv">
                 <br />
                 <Button type="submit" variant="dark" class="buttons"
-                        onClick={goToHome}>Back to homepage?</Button><br/>
-                <input type="text" id="searchText" placeholder="Card To Search For"
+                        onClick={goToHome}>Back to Home</Button><br/>
+                <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
-                <button type="button" id="searchCardButton" class="buttons"
-                        onClick={searchCard}> Search Game</button><br />
-                <span id="cardSearchResult">{searchResults}</span>
-                <p id="cardList">{cardList}</p><br /><br />
-                <input type="text" id="cardText" placeholder="Card To Add"
-                       ref={(c) => card = c} />
-                <button type="button" id="addCardButton" class="buttons"
-                        onClick={addCard}> Add Card </button><br />
-                <span id="cardAddResult">{message}</span>
+                <button type="button" id="searchGameButton" class="buttons"
+                        onClick={searchGame}> Search Game</button><br />
+                <span id="gamwSearchResult">{searchResults}</span>
+                <p id="gameList">{gameList}</p><br /><br />
+                <input type="text" id="gameText" placeholder="Game To Add"
+                       ref={(c) => game = c} />
+                <button type="button" id="addGameButton" class="buttons"
+                        onClick={addGame}> Add Game </button><br />
+                <span id="gameAddResult">{message}</span>
                 <input type="text" id="requestSteamIDText" placeholder="Enter your Steam ID"
                        ref={(c) => steamId = c} />
                 <button type="button" id="requestSteamIDBtn" class="buttons"
@@ -215,23 +215,23 @@ function CardUI()
 
         dynamic_game_search =
 
-            <div id="cardUIDiv">
+            <div id="gameUIDiv">
                 <br />
                 <Button type="submit" variant="dark" class="buttons"
-                        onClick={goToHome}>Back to homepage?</Button><br/><br/>
+                        onClick={goToHome}>Back to Home</Button><br/><br/>
                 <Button type="submit" variant="dark" class="buttons"
-                        onClick={goToLogin}>Sign In maybe?</Button><br/><br/>
-                <input type="text" id="searchText" placeholder="Card To Search For"
+                        onClick={goToLogin}>Sign In </Button><br/><br/>
+                <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
-                <button type="button" id="searchCardButton" class="buttons"
-                        onClick={searchCard}> Search Game</button><br />
-                <span id="cardSearchResult">{searchResults}</span>
-                <p id="cardList">{cardList}</p><br /><br />
-                <input type="text" id="cardText" placeholder="Card To Add"
-                       ref={(c) => card = c} />
-                <button type="button" id="addCardButton" class="buttons"
-                        onClick={addCard}> Add Card </button><br />
-                <span id="cardAddResult">{message}</span>
+                <button type="button" id="searchGameButton" class="buttons"
+                        onClick={searchGame}> Search Game</button><br />
+                <span id="gameSearchResult">{searchResults}</span>
+                <p id="gameList">{gameList}</p><br /><br />
+                <input type="text" id="gameText" placeholder="Game To Add"
+                       ref={(c) => game = c} />
+                <button type="button" id="addGameButton" class="buttons"
+                        onClick={addGame}> Add Game </button><br />
+                <span id="gameAddResult">{message}</span>
             </div>
 
     }
@@ -245,4 +245,4 @@ function CardUI()
     );
 }
 
-export default CardUI;
+export default GameUI;

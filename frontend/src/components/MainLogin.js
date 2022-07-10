@@ -25,7 +25,7 @@ function MainLogin()
         
         dynamicMain = 
         <div> 
-        <span id="inner-title">Welcome to teh homepage</span><br />
+        <span id="inner-title">Welcome to MyGameList</span><br />
         <p>you ARE already logged in! Your login is: {gimmieMoar.userName}</p>
         <LoggedInName />
         </div>
@@ -36,9 +36,9 @@ function MainLogin()
         
         dynamicMain = 
         <div>
-            <span id="inner-title">Welcome to teh homepage</span><br />
+            <span id="inner-title">Welcome to MyGameList</span><br />
             <Button type="submit" variant="dark" class="buttons"
-            onClick={goToLogin}>Sign In maybe?</Button>
+            onClick={goToLogin}>Sign In</Button>
             <br/><br/>
 
             {/* login */}
