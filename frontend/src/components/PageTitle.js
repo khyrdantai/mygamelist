@@ -1,4 +1,5 @@
 import React from 'react';
+import gamelogo from '../gamelogo.png';
 
 function PageTitle()
 {
@@ -22,6 +23,7 @@ function PageTitle()
    return(
     <div>
       {/* {alert("are ya winnin' son?")} */}
+      <img src={gamelogo} alt="game logo"/>
       {title}
     </div>
     
