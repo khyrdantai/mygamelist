@@ -7,13 +7,10 @@ import RegisterModal from './Modals/RegisterModal';
 
 
 
+
 function MainLogin()
 {
-    const goToLogin = async event => 
-    {
-        window.location.href = '/login';
-    }
-
+   
 
     let gimmie = localStorage.getItem('user_data');
     let gimmieMoar = JSON.parse(gimmie);
@@ -37,23 +34,14 @@ function MainLogin()
         dynamicMain = 
         <div>
             <span id="inner-title">Welcome to MyGameList</span><br />
-            <Button type="submit" variant="dark" class="buttons"
-            onClick={goToLogin}>Sign In</Button>
-            <br/><br/>
-
+            
             {/* login */}
 
             <ModalComponent
                 buttonType ={"Login"}
                 title={"Login"}
                 body={""}
-                bodyModal = 
-                {
-                    <div>
-                        <LoginModal/>
-                    </div>
-                    
-                }
+                componentType={LoginModal}
             />
 
             <br/>
@@ -63,12 +51,7 @@ function MainLogin()
                 buttonType ={"Register"}
                 title={"Register"}
                 body={""}
-                bodyModal = 
-                {
-                    <div>
-                        <RegisterModal/>
-                    </div>
-                }
+                componentType={RegisterModal}
             />
             
         </div>

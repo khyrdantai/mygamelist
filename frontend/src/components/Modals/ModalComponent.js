@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
-import CoreModal from './CoreModal';
+import LoginModal from './LoginModal';
+import CoreModal from './LoginModal';
 
 
 class ModalComponent extends Component
@@ -15,6 +16,8 @@ class ModalComponent extends Component
         };
     }
 
+    
+
     handleShow = () =>{
 
 
@@ -25,7 +28,7 @@ class ModalComponent extends Component
     };
 
     handleClose = (fromModal) => {
-        alert(fromModal.msg);
+        //alert(fromModal.msg);
         this.setState({
             show: false
         });
@@ -33,6 +36,7 @@ class ModalComponent extends Component
 
     render()
     {
+        const MyComponent = this.props.componentType;
 
         return(
             <div>
@@ -40,11 +44,11 @@ class ModalComponent extends Component
                     {this.props.buttonType}
                 </Button>
 
-                <CoreModal
+                <MyComponent
                     show={this.state.show}
                     title={this.props.title}
                     body={this.props.body}
-                    bodyCore = {this.props.bodyModal}
+                    //bodyCore = {this.props.bodyModal}
                     //data={this.state.data}
                     onClick={this.handleClose}
                     onHide={this.handleClose}/>
