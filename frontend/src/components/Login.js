@@ -59,7 +59,7 @@ function Login()
                 //fine for string but need to convert locastorage.getitem using stringify or parse
 
                 setMessage('');
-                window.location.href = '/cards';
+                window.location.href = '/games';
             }
         }
         catch(e)

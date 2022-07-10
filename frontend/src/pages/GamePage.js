@@ -1,17 +1,17 @@
 import React from 'react';
 import PageTitle from '../components/PageTitle';
 import LoggedInName from '../components/LoggedInName';
-import CardUI from '../components/CardUI';
+import GameUI from '../components/GameUI';
 
-const CardPage = () =>
+const GamePage = () =>
 {
     return(
         <div>
             <PageTitle />
             <LoggedInName />
-            <CardUI />
+            <GameUI />
         </div>
     );
 }
 
-export default CardPage;
+export default GamePage;
