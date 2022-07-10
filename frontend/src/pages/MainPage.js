@@ -7,7 +7,9 @@ import MainLogin from '../components/MainLogin';
 //import {withRouter} from 'react-router-dom';
 
 
-
+//this is the main page of the site
+//should display multiple clickable consoles that then display popular games
+//PageTitle is a component that displays the title of the page
 
 const MainPage = () =>
 {
@@ -19,6 +21,7 @@ const MainPage = () =>
 
     return(
       <div>
+        
         <PageTitle />
         {/*alert("did we get here!")}*/}
         <MainLogin />
