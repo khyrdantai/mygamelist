@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Validate from './Validate';
 
 class RegisterModal extends Component
 {
@@ -19,7 +20,13 @@ class RegisterModal extends Component
             userName: '',
             password: '',
             message: '',
-            success: false
+            success: false,
+            dynamicMessage: '',
+            dynamicFailurePass: false,
+            dynamicFailureEmail: false,
+            dynamicFailureFname: false,
+            dynamicFailureLname: false,
+            dynamicFailureUsername: false
         }
     }
 
@@ -158,6 +165,43 @@ class RegisterModal extends Component
         {
            this.onSubmit();
         }
+    }
+    handleDynamicError(e, inputType)
+    {
+
+        console.log("what we working with here: " + e + " " + inputType);
+        if(Validate(e, inputType))
+        {
+            this.setState({dynamicMessage: ""});
+            this.setState({dynamicFailure: false});
+        }
+        else
+        {
+            
+            switch(inputType)
+            {
+                case "userName":
+
+                    break;
+                case "password":
+                
+                    break;
+                case "firstName":
+                
+                    break;
+                case "lastName":
+                
+                    break;
+                case "eMail":
+                    //alert(inputType);
+                    this.setState({dynamicFailureEmail: true});
+                    break;
+                
+            }
+            this.setState({dynamicMessage: "you don goofed"});
+            
+        }
+        
 
     }
 
@@ -178,39 +222,40 @@ class RegisterModal extends Component
                             <Form.Group className ="mb-3" controlid="firstInput">
                                 <FloatingLabel label = "First Name">
                                     <Form.Control type = "text" placeholder="firstName" value ={this.state.firstName} autoFocus 
-                                                  onChange ={e => this.setState({ firstName: e.target.value})}
+                                                  onChange ={e => {this.setState({ firstName: e.target.value});this.handleDynamicError(e.target.value, 'firstName');}}
                                     />
                                 </FloatingLabel>
                             </Form.Group>
                             <Form.Group className ="mb-3" controlid="lastInput">
                                 <FloatingLabel label = "Last Name">
                                     <Form.Control type = "text" placeholder="lastName" value ={this.state.lastName}
-                                                  onChange ={e => this.setState({ lastName: e.target.value})}
+                                                  onChange ={e => {this.setState({ lastName: e.target.value});this.handleDynamicError(e.target.value, 'lastName');}}
                                     />
                                 </FloatingLabel>
                             </Form.Group>
                             <Form.Group className ="mb-3" controlid="mailInput">
                                 <FloatingLabel label = "E-mail">
                                     <Form.Control type = "text" placeholder="eMail" value ={this.state.eMail}
-                                                  onChange ={e => this.setState({ eMail: e.target.value})}
+                                                  onChange ={e => {this.setState({ eMail: e.target.value});this.handleDynamicError(e.target.value, 'eMail');}}
+                                                  isInvalid={this.state.dynamicFailureEmail}
                                     />
                                 </FloatingLabel>
                             </Form.Group>
                             <Form.Group className ="mb-3" controlid="userInput">
                                 <FloatingLabel label = "Username">
                                     <Form.Control type = "text" placeholder="userName" value ={this.state.userName}
-                                                  onChange ={e => this.setState({ userName: e.target.value})}
+                                                  onChange ={e => {this.setState({ userName: e.target.value});this.handleDynamicError(e.target.value, 'userName');}}
                                     />
                                 </FloatingLabel>
                             </Form.Group>
                             <Form.Group className ="mb-3" controlid="passInput">
                                 <FloatingLabel label = "Password">
                                     <Form.Control type = "password" placeholder="password" value ={this.state.password}
-                                                  onChange ={e => this.setState({ password: e.target.value})}
+                                                  onChange ={e => {this.setState({ password: e.target.value});this.handleDynamicError(e.target.value, 'password');}}
                                                   onKeyDown={this.onkeyPress}
                                     />
                                     <Form.Text id="passwordHelp" muted> {/*to do: aria-describedby for assisted technologies */}
-                                    {this.state.message}
+                                    {this.state.dynamicMessage}   
                                     </Form.Text>
                                 </FloatingLabel>
                             </Form.Group>
