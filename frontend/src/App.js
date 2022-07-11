@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import image from './green.jpg';
 
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -15,6 +16,7 @@ function App() {
   
 
   return (
+    <div style={{ backgroundImage:`url(${image})`,backgroundSize: 'contain' }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" index element={<MainPage />} />
@@ -22,6 +24,7 @@ function App() {
           <Route path="/games" index element={<GamePage />} />
         </Routes>
       </BrowserRouter>
+    </div>
   );
 }
 
