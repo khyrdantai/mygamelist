@@ -1,5 +1,5 @@
 import React from 'react';
-import gamelogo from '../gamelogo.png';
+import gamelogo from '../newgamelogo.png';
 
 function PageTitle()
 {
