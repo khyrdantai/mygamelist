@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import ModalComponent from './Modals/ModalComponent';
+import LoginModal from './Modals/LoginModal';
+import RegisterModal from './Modals/RegisterModal';
 
 function GameUI()
 {
@@ -41,7 +44,7 @@ function GameUI()
         }
         else
         {
-            return 'http://localhost:3000/' + route;
+            return 'http://localhost:5000/' + route;
         }
     }
 
@@ -219,8 +222,26 @@ function GameUI()
                 <br />
                 <Button type="submit" variant="dark" class="buttons"
                         onClick={goToHome}>Back to Home</Button><br/><br/>
-                <Button type="submit" variant="dark" class="buttons"
-                        onClick={goToLogin}>Sign In </Button><br/><br/>
+                
+                {/* login */}
+
+                <ModalComponent
+                    buttonType ={"Login"}
+                    title={"Login"}
+                    body={""}
+                    componentType={LoginModal}
+                />
+
+                <br/>
+                {/* register */}
+
+                <ModalComponent
+                    buttonType ={"Register"}
+                    title={"Register"}
+                    body={""}
+                    componentType={RegisterModal}
+                />
+                <br/>
                 <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
                 <button type="button" id="searchGameButton" class="buttons"
