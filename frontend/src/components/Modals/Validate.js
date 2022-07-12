@@ -20,9 +20,17 @@ function Validate(input, inputType)
     if(input)
     {
         //alert("we got past the truthy");
-        if(input.trim().length !=0)
+        if(input.trim().length !==0)
         {
         //alert("we past the trimmy");
+            if(input.trim().length === input.length)
+            {
+
+            }
+            else
+            {
+                return failed;
+            }
                 
         }
         else
