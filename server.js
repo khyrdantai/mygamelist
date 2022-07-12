@@ -10,7 +10,7 @@ connectDB();
 app.use('/api/login', loginModel)
 app.use('/api/register', registerModel)
 app.use('/api/Steam', steamModel)
-app.use('/api/addGame')
+app.use('/api/addGame', addGameModel)
 
 //start Node + Express server listener
 app.listen(PORT, () => 
