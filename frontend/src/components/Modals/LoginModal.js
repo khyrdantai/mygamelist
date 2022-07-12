@@ -47,7 +47,7 @@ class LoginModal extends Component
 
         try
         {    
-            let build = this.buildPath('api/login');
+            //let build = this.buildPath('api/login');
             //alert(build);
             const response = await fetch(this.buildPath('api/login'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
