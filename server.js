@@ -1,6 +1,7 @@
 const loginModel = require('./backend/routes/loginRoute');
 const registerModel = require('./backend/routes/registerRoute');
 const steamModel = require('./backend/routes/steamRoute');
+const addGameModel = require('./backend/routes/addGameRoute');
 
 // config folder stuff
 const {connectDB, app, PORT, express, path} = require("./backend/db");
@@ -9,6 +10,7 @@ connectDB();
 app.use('/api/login', loginModel)
 app.use('/api/register', registerModel)
 app.use('/api/Steam', steamModel)
+app.use('/api/addGame')
 
 //start Node + Express server listener
 app.listen(PORT, () => 
