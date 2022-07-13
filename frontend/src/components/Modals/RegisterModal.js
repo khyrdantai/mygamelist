@@ -60,7 +60,7 @@ class RegisterModal extends Component
             firstName:this.state.firstName, 
             lastName:this.state.lastName, 
             email:this.state.eMail,  
-            login:this.state.userName, 
+            userName:this.state.userName, 
             password:this.state.password
         };
 
