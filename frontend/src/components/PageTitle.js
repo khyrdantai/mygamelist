@@ -1,4 +1,5 @@
 import React from 'react';
+import gamelogo from '../newgamelogo.png';
 
 function PageTitle()
 {
@@ -16,13 +17,18 @@ function PageTitle()
   else
   {
     console.log("working?");
-    title = <h1 id="title">MAIN PAGE</h1>;
+    title = <h1 id="title">Welcome!</h1>;
   }
 
    return(
-    <div>
-      {/* {alert("are ya winnin' son?")} */}
+    <div id="titles">
       {title}
+      {/* {alert("are ya winnin' son?")} */}
+      <a href="https://google.com" target="_blank" rel="noreferrer">
+      <img src={gamelogo} alt="game logo" id="logopic"/>
+      </a>
+      
+      
     </div>
     
    );
