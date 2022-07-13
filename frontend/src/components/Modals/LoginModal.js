@@ -42,7 +42,7 @@ class LoginModal extends Component
     {
         //event.preventDefault();
         //alert("user: " + this.state.userName + " pass: " + this.state.password);
-        let obj = {login:this.state.userName, password:this.state.password};
+        let obj = {userName:this.state.userName, password:this.state.password};
         let js = JSON.stringify(obj);
 
         try
