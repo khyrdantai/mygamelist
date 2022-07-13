@@ -1,6 +1,6 @@
 // local modules
 const {client, express} = require("../db");
-const login_router = express.Router()
+const login_router = express.Router();
 
 //login api
 login_router.post('/', async (req, res) => {
