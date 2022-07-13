@@ -12,7 +12,7 @@ login_router.post('/', async (req, res) => {
     const { login, password } = req.body;
 
     const db = client.db("MyGameListDB");
-    const results = await db.collection('Users').find({login:login,password:password}).toArray();
+    const results = await db.collection('Users').find({userName:login, password:password}).toArray();
 
     let id = -1;
     let fn = '';
