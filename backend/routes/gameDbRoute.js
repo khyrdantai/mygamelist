@@ -52,7 +52,7 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
     ... (req.body.genre !== undefined) && { genre : req.body.genre},
     ... (req.body.name !== undefined) && { name : {$regex: req.body.name, $options: 'i'}},
     ... (req.body.platform !== undefined) && { platform : { $all: req.body.platform}},
-    ... (req.body.userCount !== undefined) && { userCount : userCount},
+    ... (req.body.userCount !== undefined) && { userCount : parseInt(req.body.userCount)},
     ... (req.body.year !== undefined) && { year : req.body.year}
   }
 
