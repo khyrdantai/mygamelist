@@ -14,14 +14,14 @@ register_router.post('/', async (req, res) =>{
   let  _id = new mongoose.Types.ObjectId()
   let  firstName = req.body.firstName
   let  lastName = req.body.lastName
-  let  login = req.body.login
+  let  userName = req.body.userName
   let  password = req.body.password
   let  email = req.body.email   
   
   const db = client.db("MyGameListDB");
 
   // insert new user into database
-  const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,login:login,password:password,email:email})
+  const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:password,email:email,userName:userName})
 
   
   res.status(200).json({

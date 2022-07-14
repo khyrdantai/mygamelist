@@ -43,6 +43,11 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
      An array of objects that contains all of the data for every game that matches
      the search results.
   */ 
+
+  console.log("did we get here");
+  console.log("name: "+ req.body.name);
+
+  let newUsercount = parseInt(req.body.userCount);
   
   let searchParams = 
   {
@@ -52,13 +57,25 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
     ... (req.body.genre !== undefined) && { genre : req.body.genre},
     ... (req.body.name !== undefined) && { name : req.body.name},
     ... (req.body.platform !== undefined) && { platform : { $all: req.body.platform}},
-    ... (req.body.userCount !== undefined) && { userCount : req.body.userCount},
+    ... (req.body.userCount !== undefined) && { userCount : newUsercount},
     ... (req.body.year !== undefined) && { year : req.body.year}
   }
 
+  console.log("did we get past search params");
+
+  console.log("search param name: " + searchParams.name);
+
+  console.log("userCount type: " + typeof(searchParams.userCount));
+
+
+
   const response = await db.collection('Games').find(searchParams).toArray();
+
+  console.log("did we get past search searching search params");
     
   let results = [];
+  console.log(response.length);
+
   if (response.length > 0)
   {
     response.forEach((game) => 
@@ -77,10 +94,14 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
         
         results.push(temp);
     });
+
+    console.log("did we 200");
+    console.log(results);
     res.status(200).json(results);
   }
   else
   {
+    console.log("did we get 404");
     res.status(404);
   }
 });
