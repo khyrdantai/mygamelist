@@ -1,6 +1,6 @@
 // local modules
 const {client, express} = require("../db");
-const login_router = express.Router()
+const login_router = express.Router();
 
 //login api
 login_router.post('/', async (req, res) => {
@@ -9,10 +9,12 @@ login_router.post('/', async (req, res) => {
 
     let error = '';
 
-    const { login, password } = req.body;
+    const { userName, password } = req.body;
 
     const db = client.db("MyGameListDB");
-    const results = await db.collection('Users').find({login:login,password:password}).toArray();
+
+    const results = await db.collection('Users').find({userName:userName,password:password}).toArray();
+
 
     let id = -1;
     let fn = '';
@@ -25,7 +27,7 @@ login_router.post('/', async (req, res) => {
       id = results[0]._id;
       fn = results[0].firstName;
       ln = results[0].lastName;
-      un = results[0].login;
+      un = results[0].userName;
       local_email = results[0].email;
     }
 

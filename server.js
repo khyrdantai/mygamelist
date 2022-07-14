@@ -3,6 +3,7 @@ const registerModel = require('./backend/routes/registerRoute');
 const steamModel = require('./backend/routes/steamRoute');
 const gameDbModel = require('./backend/routes/gameDbRoute')
 
+
 // config folder stuff
 const {connectDB, app, PORT, express, path} = require("./backend/db");
 connectDB();

@@ -42,12 +42,12 @@ class LoginModal extends Component
     {
         //event.preventDefault();
         //alert("user: " + this.state.userName + " pass: " + this.state.password);
-        let obj = {login:this.state.userName, password:this.state.password};
+        let obj = {userName:this.state.userName, password:this.state.password};
         let js = JSON.stringify(obj);
 
         try
         {    
-            let build = this.buildPath('api/login');
+            //let build = this.buildPath('api/login');
             //alert(build);
             const response = await fetch(this.buildPath('api/login'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});

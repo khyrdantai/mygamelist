@@ -9,6 +9,7 @@ const {app, client} = require("../db");
 //register api
 register_router.post('/', async (req, res) =>{
 
+
   // new user data    
   let  _id = new mongoose.Types.ObjectId()
   let  firstName = req.body.firstName
@@ -21,6 +22,7 @@ register_router.post('/', async (req, res) =>{
 
   // insert new user into database
   const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,login:login,password:password,email:email})
+
   
   res.status(200).json({
     message: "Registered new user"
