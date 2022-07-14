@@ -80,9 +80,6 @@ function GameUI()
 
     };
 
-    //JETT
-    //JETT
-    //ALERT JETT, this is the search all games function for now
     const searchGame = async event =>
     {
         event.preventDefault();
@@ -93,35 +90,27 @@ function GameUI()
         alert(js);
         try
         {
-            let build = buildPath('api/games/searchAllGames');
-            alert(build);
             const response = await fetch(buildPath('api/games/searchAllGames'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            console.log("made it pre the api");
-            let txt = await response.text();
-
-            console.log("made it past the api");
-            let res = JSON.parse(txt);
-            console.log("this is the object array: " + res);
-
-            //I only got to here (cause I had to sleep), nothing past here is implemented
-            //fully or correctly
-            //--------------------------------
-            // but it should alert (done) if you don't get a 404 in the backend, it doesn't catch the error for some reason
-            //otherwise it does the weird freezing thing if you put an incorrect search param
-            let _results = res.results;
-            let resultText = '';
-            for( var i=0; i<_results.length; i++ )
+ 
+            if (response.status === 404)
             {
-                resultText += _results[i];
-                if( i < _results.length - 1 )
-                {
-                    resultText += ', ';
-                }
+                alert('No game found');
+                return;
             }
+
+            let txt = await response.text();
+            let searchList = JSON.parse(txt);            
+
+            //The response is an array of objects, so you need to
+            //iterate through them to get the desired data
+            for( var i=0; i<searchList.length; i++ )
+            {
+                console.log(searchList[i]);
+            }
+
             setResults('Game(s) have been retrieved');
-            setGameList(resultText);
+            //setGameList(resultText);
         }
         catch(e)
         {
