@@ -65,13 +65,14 @@ class RegisterModal extends Component
         };
 
         let js = JSON.stringify(obj);
-
+        let emailBody = JSON.stringify({email: obj.email});
         //alert(js);
 
         try
         {    
             //let build = this.buildPath('api/register');
             //alert(build);
+            
             const response = await fetch(this.buildPath('api/register'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
@@ -81,6 +82,15 @@ class RegisterModal extends Component
             {
                 alert(await response.text());
                 return;
+            }
+            
+            console.log(js);
+            const emailRes = await fetch(this.buildPath('api/email/sendVerification'),
+            {method:'POST',body:emailBody,headers:{'Content-Type': 'application/json'}});
+            
+            if (emailRes.status === 404)
+            {
+                alert(await emailRes.text());
             }
 
             let res = JSON.parse(await response.text());
