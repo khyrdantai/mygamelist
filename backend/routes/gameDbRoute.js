@@ -43,11 +43,6 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
      An array of objects that contains all of the data for every game that matches
      the search results.
   */ 
-
-  console.log("did we get here");
-  console.log("name: "+ req.body.name);
-
-  let newUsercount = parseInt(req.body.userCount);
   
   let searchParams = 
   {
@@ -61,17 +56,9 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
     ... (req.body.year !== undefined) && { year : req.body.year}
   }
 
-  console.log("did we get past search params");
-
-  console.log("search param name: " + searchParams.name);
-
-  console.log("userCount type: " + typeof(searchParams.userCount));
-
-
 
   const response = await db.collection('Games').find(searchParams).toArray();
 
-  console.log("did we get past search searching search params");
     
   let results = [];
   console.log(response.length);

@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import ModalComponent from './Modals/ModalComponent';
 import LoginModal from './Modals/LoginModal';
 import RegisterModal from './Modals/RegisterModal';
+import AllGameSearch from './AllGameSearch';
 
 function GameUI()
 {
@@ -80,56 +81,49 @@ function GameUI()
 
     };
 
-    //JETT
-    //JETT
-    //ALERT JETT, this is the search all games function for now
-    const searchGame = async event =>
-    {
-        event.preventDefault();
+    //-------------------------------------------------------------------------
+    //old un-refactored searchallgames code
+    // const searchGame = async event =>
+    // {
+    //     event.preventDefault();
 
-        //IMPORTANT: to test a certain game search parameter, change "name" to one of the other parameters, like "userCount"
-        let obj = {name:search.value};
-        let js = JSON.stringify(obj);
-        alert(js);
-        try
-        {
-            let build = buildPath('api/games/searchAllGames');
-            alert(build);
-            const response = await fetch(buildPath('api/games/searchAllGames'),
-            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+    //     //IMPORTANT: to test a certain game search parameter, change "name" to one of the other parameters, like "userCount"
+    //     let obj = {name:search.value};
+    //     let js = JSON.stringify(obj);
+    //     alert(js);
+    //     try
+    //     {
+    //         const response = await fetch(buildPath('api/games/searchAllGames'),
+    //         {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+ 
+    //         if (response.status === 404)
+    //         {
+    //             alert('No game found');
+    //             return;
+    //         }
 
-            console.log("made it pre the api");
-            let txt = await response.text();
+    //         let txt = await response.text();
+    //         let searchList = JSON.parse(txt);            
 
-            console.log("made it past the api");
-            let res = JSON.parse(txt);
-            console.log("this is the object array: " + res);
+    //         //The response is an array of objects, so you need to
+    //         //iterate through them to get the desired data
+    //         for( var i=0; i<searchList.length; i++ )
+    //         {
+    //             console.log(searchList[i]);
+    //             console.log(searchList[i].name);
+    //         }
 
-            //I only got to here (cause I had to sleep), nothing past here is implemented
-            //fully or correctly
-            //--------------------------------
-            // but it should alert (done) if you don't get a 404 in the backend, it doesn't catch the error for some reason
-            //otherwise it does the weird freezing thing if you put an incorrect search param
-            let _results = res.results;
-            let resultText = '';
-            for( var i=0; i<_results.length; i++ )
-            {
-                resultText += _results[i];
-                if( i < _results.length - 1 )
-                {
-                    resultText += ', ';
-                }
-            }
-            setResults('Game(s) have been retrieved');
-            setGameList(resultText);
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            setResults(e.toString());
-        }
-        alert("done");
-    };
+    //         setResults('Game(s) have been retrieved');
+    //         //setGameList(resultText);
+    //     }
+    //     catch(e)
+    //     {
+    //         alert(e.toString());
+    //         setResults(e.toString());
+    //     }
+    //     alert("done");
+    // };
+    //---------------------------------------------------------------------------
 
     const getGamesList = async event =>
     {
@@ -209,11 +203,12 @@ function GameUI()
                 <br />
                 <Button type="submit" variant="dark" class="buttons"
                         onClick={goToHome}>Back to Home</Button><br/>
-                <input type="text" id="searchText" placeholder="Game To Search For"
+                {/* <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
-                <span id="gameSearchResult">{searchResults}</span>
+                <span id="gameSearchResult">{searchResults}</span> */}
+                <AllGameSearch/>
                 <p id="gameList">{gameList}</p><br /><br />
                 <input type="text" id="gameText" placeholder="Game To Add"
                        ref={(c) => game = c} />
@@ -260,11 +255,12 @@ function GameUI()
                     componentType={RegisterModal}
                 />
                 <br/>
-                <input type="text" id="searchText" placeholder="Game To Search For"
+                {/* <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
-                <span id="gameSearchResult">{searchResults}</span>
+                <span id="gameSearchResult">{searchResults}</span> */}
+                <AllGameSearch/>
                 <p id="gameList">{gameList}</p><br /><br />
                 <input type="text" id="gameText" placeholder="Game To Add"
                        ref={(c) => game = c} />
@@ -272,7 +268,6 @@ function GameUI()
                         onClick={addGame}> Add Game </button><br />
                 <span id="gameAddResult">{message}</span>
             </div>
-
     }
 
 
