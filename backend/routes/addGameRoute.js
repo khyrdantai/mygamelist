@@ -2,23 +2,19 @@ const {client, express} = require("../db");
 const add_game_router = express.Router()
 const authenticate_token = require('../authentication')
 
-add_game_router.post('/', authenticate_token, async (req, res) =>{
+add_game_router.post('/',  async (req, res) =>{
     error=''
     const this_game_id = req.body.this_game_id
     const this_game_rating = req.body.this_game_rating
     const user_id = req.body.user_id;
 
     const db = client.db("MyGameListDB");
-    const result = await db.collection('Users').updateOne(
-        {_id: user_id} , { $push: {"games": {
-        _id:this_game_rating,
-        rating: this_game_rating,
-    }}})
+    const result = await db.collection('Users').updateOne({_id: user_id} , { $push: {"games": {id:this_game_id, rating: this_game_rating}}})
     
     console.log(result);
     let ret = {"hello":"world"}
     
-    res.status(200).json(ret);
+    res.status(200).json(result);
 })
 
 module.exports = add_game_router
