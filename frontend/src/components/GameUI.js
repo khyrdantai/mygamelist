@@ -210,11 +210,15 @@ function GameUI()
                 <span id="gameSearchResult">{searchResults}</span> */}
                 <AllGameSearch/>
                 <p id="gameList">{gameList}</p><br /><br />
+                
+                
                 <input type="text" id="gameText" placeholder="Game To Add"
                        ref={(c) => game = c} />
                 <button type="button" id="addGameButton" class="buttons"
                         onClick={addGame}> Add Game </button><br />
                 <span id="gameAddResult">{message}</span>
+                
+                
                 <input type="text" id="requestSteamIDText" placeholder="Enter your Steam ID"
                        ref={(c) => steamId = c} />
                 <button type="button" id="requestSteamIDBtn" class="buttons"
