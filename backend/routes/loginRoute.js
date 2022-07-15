@@ -62,4 +62,8 @@ login_router.post('/', async (req, res) => {
     res.status(200).json(ret);
   });
 
-module.exports = {login_router, authenticate_token}
+module.exports = 
+{
+  login_router, 
+  authenticate_token
+}
