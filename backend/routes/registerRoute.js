@@ -38,7 +38,8 @@ register_router.post('/', async (req, res) =>{
   else
   {
   // insert new user into database
-  const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:password,email:email, userName: userName})
+  const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:password,email:email,userName:userName})
+
 
   res.status(200).json({
     message: "Registered new user"

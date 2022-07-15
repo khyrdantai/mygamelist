@@ -9,6 +9,7 @@ function GameUI()
 
     let game = '';
     let search = '';
+    let name = '';
     let steamId = '';
 
     const [message,setMessage] = useState('');
@@ -83,34 +84,40 @@ function GameUI()
     {
         event.preventDefault();
 
-        let obj = {userId:userId,search:search.value};
+        //IMPORTANT: to test a certain game search parameter, change "name" to one of the other parameters, like "userCount"
+        let obj = {name:search.value};
         let js = JSON.stringify(obj);
-
+        alert(js);
         try
         {
-            const response = await fetch(buildPath('api/searchgames'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            const response = await fetch(buildPath('api/games/searchAllGames'),
+            {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+ 
+            if (response.status === 404)
+            {
+                alert('No game found');
+                return;
+            }
 
             let txt = await response.text();
-            let res = JSON.parse(txt);
-            let _results = res.results;
-            let resultText = '';
-            for( var i=0; i<_results.length; i++ )
+            let searchList = JSON.parse(txt);            
+
+            //The response is an array of objects, so you need to
+            //iterate through them to get the desired data
+            for( var i=0; i<searchList.length; i++ )
             {
-                resultText += _results[i];
-                if( i < _results.length - 1 )
-                {
-                    resultText += ', ';
-                }
+                console.log(searchList[i]);
             }
+
             setResults('Game(s) have been retrieved');
-            setGameList(resultText);
+            //setGameList(resultText);
         }
         catch(e)
         {
             alert(e.toString());
             setResults(e.toString());
         }
+        alert("done");
     };
 
     const getGamesList = async event =>
@@ -195,7 +202,7 @@ function GameUI()
                        ref={(c) => search = c} />
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
-                <span id="gamwSearchResult">{searchResults}</span>
+                <span id="gameSearchResult">{searchResults}</span>
                 <p id="gameList">{gameList}</p><br /><br />
                 <input type="text" id="gameText" placeholder="Game To Add"
                        ref={(c) => game = c} />
