@@ -1,7 +1,8 @@
 const {client, express} = require("../db");
 const add_game_router = express.Router()
+const authenticate_token = require('../authentication')
 
-add_game_router.post('/', async (req, res) =>{
+add_game_router.post('/', authenticate_token, async (req, res) =>{
     error=''
     const this_game_id = req.body.this_game_id
     const this_game_rating = req.body.this_game_rating
