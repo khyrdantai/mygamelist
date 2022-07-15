@@ -10,6 +10,7 @@ const login_router = express.Router();
 login_router.post('/', async (req, res) => {
 
   const {userName, password} = req.body
+  console.log(userName + " "+ password)
   const user = {userName:userName, password:password}
 
   // create jwt token

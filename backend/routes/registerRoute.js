@@ -1,10 +1,9 @@
 // public modules
-const express = require('express')
 const mongoose = require('mongoose');
 const register_router = express.Router()
 
 // local modules
-const {app, client} = require("../db");
+const {client, express} = require("../db");
 
 //register api
 register_router.post('/', async (req, res) =>{
@@ -16,17 +15,17 @@ register_router.post('/', async (req, res) =>{
   let  lastName = req.body.lastName
   let  userName = req.body.userName
   let  password = req.body.password
-  let  email = req.body.email   
+  let  email = req.body.email
   
   const db = client.db("MyGameListDB");
 
   // insert new user into database
   const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:password,email:email, userName: userName})
-
-  
-  res.status(200).json({
-    message: "Registered new user"
-  });
+  if(add_user.length > 0){
+    res.status(200).json({
+    message: "Registered new user"});
+  }else res.status(401).json({error:"return value error"})
+    
 
 })
 
