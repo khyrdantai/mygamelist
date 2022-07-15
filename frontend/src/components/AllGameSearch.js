@@ -99,7 +99,7 @@ class AllGameSearch extends Component
         //what I tried to test for a platform search
         //let obj = {name: this.state.gameName, platform: ['Playstation 4']};
 
-        let obj = {name: this.state.gameName, genre: genre};
+        let obj = {name: this.state.gameName, genre: genre, platform: ['PlayStation 4']};
 
         let js = JSON.stringify(obj);
         alert(js);
