@@ -50,18 +50,15 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
     ... (req.body.averageRating !== undefined) && { averageRating : req.body.averageRating},
     ... (req.body.description !== undefined) && { description : req.body.description},
     ... (req.body.genre !== undefined) && { genre : req.body.genre},
-    ... (req.body.name !== undefined) && { name : req.body.name},
+    ... (req.body.name !== undefined) && { name : {$regex: req.body.name, $options: 'i'}},
     ... (req.body.platform !== undefined) && { platform : { $all: req.body.platform}},
-    ... (req.body.userCount !== undefined) && { userCount : newUsercount},
+    ... (req.body.userCount !== undefined) && { userCount : parseInt(req.body.userCount)},
     ... (req.body.year !== undefined) && { year : req.body.year}
   }
 
-
   const response = await db.collection('Games').find(searchParams).toArray();
-
     
   let results = [];
-  console.log(response.length);
 
   if (response.length > 0)
   {
@@ -82,14 +79,11 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
         results.push(temp);
     });
 
-    console.log("did we 200");
-    console.log(results);
     res.status(200).json(results);
   }
   else
   {
-    console.log("did we get 404");
-    res.status(404);
+    res.status(404).send('Not Found');
   }
 });
 

@@ -77,6 +77,12 @@ class RegisterModal extends Component
 
             //alert("we arrived past the api!");
 
+            if (response.status === 409)
+            {
+                alert(await response.text());
+                return;
+            }
+
             let res = JSON.parse(await response.text());
 
             //alert(res.id);
