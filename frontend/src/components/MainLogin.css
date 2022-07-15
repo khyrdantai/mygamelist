@@ -1,0 +1,21 @@
+.logo{
+    max-height: 150px;
+   
+    text-align: left;
+    position: sticky;
+    
+    padding-left: 0px;
+}
+
+.loginButtons{
+    text-align: right;
+    
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  right: 100px;
+ 
+  text-decoration: none;
+ left: 200px;
+  font-size: 16px;
+}

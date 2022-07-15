@@ -24,9 +24,8 @@ function PageTitle()
     <div id="titles">
       {title}
       {/* {alert("are ya winnin' son?")} */}
-      <a href="https://google.com" target="_blank" rel="noreferrer">
-      <img src={gamelogo} alt="game logo" id="logopic"/>
-      </a>
+      
+      
       
       
     </div>

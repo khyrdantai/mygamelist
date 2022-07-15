@@ -8,6 +8,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
+import gamelogo from '../newgamelogo.png';
+import '../components/MainLogin.css';
+
 
 
 
@@ -41,12 +44,16 @@ function MainLogin()
             <span id="inner-title">Welcome to MyGameList</span><br />
             
             
-            <Navbar bg="light" expand="lg">
+            <Navbar  expand="lg">
                 <Container>
-                    <Navbar.Brand>React-Bootstrap</Navbar.Brand>
+
+                    <a href="https://google.com" target="_blank" rel="noreferrer">
+                    <img src={gamelogo} className='logo' alt="game logo"/>
+                    </a>
+                    <Navbar.Brand></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
+                    <Nav className="loginButtons">
                        
                             <ModalComponent
                                 buttonType ={"Login"}
