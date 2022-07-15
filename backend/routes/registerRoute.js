@@ -20,14 +20,32 @@ register_router.post('/', async (req, res) =>{
   
   const db = client.db("MyGameListDB");
 
+  const usernameCheck = await db.collection('Users').find({userName: userName}).toArray();
+  const emailCheck = await db.collection('Users').find({email: email}).toArray();
+
+  if (usernameCheck.length > 0 && emailCheck.length > 0)
+  {
+    res.status(409).send('Username and email already exists');
+  }
+  else if (usernameCheck.length > 0)
+  {
+    res.status(409).send('Username already exists');
+  }
+  else if (emailCheck.length > 0)
+  {
+    res.status(409).send('Email already exists');
+  }
+  else
+  {
   // insert new user into database
   const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:password,email:email, userName: userName})
 
-  
   res.status(200).json({
     message: "Registered new user"
   });
-
+  }
 })
+
+register_router.post('/')
 
 module.exports = register_router
