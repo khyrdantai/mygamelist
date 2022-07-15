@@ -48,10 +48,12 @@
   }
 }
 
-#title
+
+
+#checkboxPlatforms, #checkboxGenres
 {
-  color:red;
-  text-align: center;
+  height: 100px;
+  overflow-y: scroll;
 }
 
 
@@ -74,6 +76,18 @@
 #inner-title{
   display:inline-block;
 }
+
+#title
+{
+  color:red;
+  text-align: center;
+}
+#gameFormat
+{
+  white-space: pre-wrap;
+}
+
+
 
 h1{
 

@@ -148,25 +148,25 @@ class LoginModal extends Component
                     <Modal.Body>
                         {this.props.body}
                         <Form>
-                        <Form.Group className ="mb-3" controlid="topInput">
-                            <FloatingLabel label = "Username">
-                                <Form.Control type = "text" placeholder="username" value ={this.state.userName} autoFocus
-                                              onChange ={e => this.setState({ userName: e.target.value})}
-                                />
-                            </FloatingLabel>
-                        </Form.Group>
-                        <Form.Group className ="mb-3" controlid="bottomInput">
-                            <FloatingLabel label = "Password">
-                                <Form.Control type = "password" placeholder="password" value ={this.state.password}
-                                              onChange ={e => this.setState({ password: e.target.value})}
-                                              onKeyDown={this.onkeyPress}
-                                />
-                                <Form.Text id="passwordHelp" muted> {/*to do: aria-describedby for assisted technologies */}
-                                    {this.state.message}
-                                </Form.Text>
-                            </FloatingLabel>
-                        </Form.Group>
-                    </Form>
+                            <Form.Group className ="mb-3" controlid="topInput">
+                                <FloatingLabel label = "Username">
+                                    <Form.Control type = "text" placeholder="username" value ={this.state.userName} autoFocus
+                                                onChange ={e => this.setState({ userName: e.target.value})}
+                                    />
+                                </FloatingLabel>
+                            </Form.Group>
+                            <Form.Group className ="mb-3" controlid="bottomInput">
+                                <FloatingLabel label = "Password">
+                                    <Form.Control type = "password" placeholder="password" value ={this.state.password}
+                                                onChange ={e => this.setState({ password: e.target.value})}
+                                                onKeyDown={this.onkeyPress}
+                                    />
+                                    <Form.Text id="passwordHelp" muted> {/*to do: aria-describedby for assisted technologies */}
+                                        {this.state.message}
+                                    </Form.Text>
+                                </FloatingLabel>
+                            </Form.Group>
+                        </Form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => {this.onHide();}}>Close</Button>
