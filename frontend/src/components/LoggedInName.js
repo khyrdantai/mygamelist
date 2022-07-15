@@ -8,12 +8,14 @@ function LoggedInName()
     
     let dynamicLogged;
 
+    //to do: use states to not have to re-render everything on logout
     const doLogout = event => 
     {
+      const currentPath = window.location.pathname;
 	    event.preventDefault();
 
         localStorage.removeItem("user_data")
-        window.location.href = '/';
+        window.location.href = currentPath;
 
     };   
     

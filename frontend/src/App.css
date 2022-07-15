@@ -1,3 +1,11 @@
+/*for the font*/
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300&display=swap');
+
+
+*{
+    font-family: 'Raleway', sans-serif;
+    
+}
 .App {
   text-align: center;
 }
@@ -39,5 +47,35 @@
 
 #title
 {
-  color:blue;
+  color:red;
+  text-align: center;
 }
+
+
+#logopic{
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  padding-left: 40%;
+  padding-bottom: 0%;
+  
+}
+
+#logopic:hover{
+  
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  
+}
+
+#inner-title{
+  display:inline-block;
+}
+
+h1{
+
+  display:inline-block;
+  font-size: 500px;
+  padding-right:0;
+}
+
