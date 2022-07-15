@@ -21,7 +21,7 @@ login_router.post('/', async (req, res) => {
 
     let full_token = get_token()
     
-    // idk how to test this
+    // this is middleware that needs to be used by other api calls but i dont have it quite figured out yet
     function authenticate_token(req, res, next){
       const auth_header = req.headers['authorization']
       const token = auth_header && auth_header.split(' ')[1]
