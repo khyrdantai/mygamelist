@@ -1,5 +1,6 @@
 import React from 'react';
-import gamelogo from '../newgamelogo.png';
+import { Layout } from './Layout';
+
 
 function PageTitle()
 {
@@ -22,9 +23,11 @@ function PageTitle()
 
    return(
     <div id="titles">
-      {title}
-      {/* {alert("are ya winnin' son?")} */}
-      
+
+      {/*this layout tag is to center any content we have */}
+      <Layout>
+
+      </Layout>
       
       
       

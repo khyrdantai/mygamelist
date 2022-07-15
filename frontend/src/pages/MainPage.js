@@ -3,6 +3,7 @@ import React from 'react';
 import PageTitle from '../components/PageTitle';
 import MainLogin from '../components/MainLogin';
 
+
 //import {withRouter} from 'react-router-dom';
 
 
@@ -21,9 +22,12 @@ const MainPage = () =>
     return(
       <div>
         
+        
         <PageTitle />
+        
         {/*alert("did we get here!")}*/}
         <MainLogin />
+        
       </div>
     );
 };
