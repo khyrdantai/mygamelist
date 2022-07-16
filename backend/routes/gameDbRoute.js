@@ -37,7 +37,7 @@ gameDbRoute_router.post('/getUserGames', async (req, res) =>
 gameDbRoute_router.post('/searchAllGames', async (req, res) =>
 {
   /* incoming: Any number of the following
-     id, averageRating, description, genre, name, platform [], userCount, year
+     id, averageRating, description, genre[], name, platform [], userCount, year
 
      outgoing: 
      An array of objects that contains all of the data for every game that matches
@@ -49,7 +49,7 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
     ... (req.body.id !== undefined) && { _id : req.body.id},
     ... (req.body.averageRating !== undefined) && { averageRating : req.body.averageRating},
     ... (req.body.description !== undefined) && { description : req.body.description},
-    ... (req.body.genre !== undefined) && { genre : req.body.genre},
+    ... (req.body.genre !== undefined) && { genre : { $all: req.body.genre}},
     ... (req.body.name !== undefined) && { name : {$regex: req.body.name, $options: 'i'}},
     ... (req.body.platform !== undefined) && { platform : { $all: req.body.platform}},
     ... (req.body.userCount !== undefined) && { userCount : parseInt(req.body.userCount)},

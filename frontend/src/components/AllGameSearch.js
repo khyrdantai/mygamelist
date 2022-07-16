@@ -20,11 +20,16 @@ class AllGameSearch extends Component
             gameList: '',
             success: false,
 
+            //platforms
+            PCCheck: false,
             PS4Check: false,
+            XOneCheck: false,
+            XSeriesCheck: false,
+            PS5Check: false,
 
-
+           //genres
             RPGCheck: false,
-            ARPCheck: false,
+            ActionCheck: false,
             FPSCheck: false
         }
     }
@@ -47,6 +52,7 @@ class AllGameSearch extends Component
     {
         this.setState({ message: msg})
     }
+   
 
     onkeyPress = (e) =>{
 
@@ -60,28 +66,86 @@ class AllGameSearch extends Component
     onSubmit = async () =>{
         //console.log(this.state.userName + " " + this.state.password);
         
-        let genre = undefined;
-        let platform = [undefined];
-        
-        if(this.state.RPGCheck)
-        {
-            genre = "RPG";
-        }
-        if(this.state.FPSCheck)
-        {
-            genre = "FPS";
-        }
-        if(this.state.ARPCheck)
-        {
-            genre = "Action Role Playing"
-        }
- 
-        await this.searchGame(genre);
+        let genre;
+        let platform;
 
+        //genre check
+        if(this.state.RPGCheck || this.state.FPSCheck || this.state.ActionCheck)
+        {
+            let genreArray = [];
+            if(this.state.RPGCheck)
+            {
+
+                genreArray.push("Role Playing Game");
+
+            }
+            if(this.state.FPSCheck)
+            {
+                genreArray.push("First Person Shooter");
+                
+            }
+            if(this.state.ActionCheck)
+            {
+                genreArray.push("Action");
+                
+            }
+            
+            genre = [...genreArray];
+            //alert("this is genre, not genrearray " + genre);
+        
+        }
+        else
+        {
+            genre = undefined;
+        }
+        //platforms check
+        if(this.state.PCCheck || this.state.PS4Check || this.state.PS5Check || this.state.XOneCheck || this.state.XSeriesCheck)
+        {
+            let platformArray = [];
+            if(this.state.PCCheck)
+            {
+
+                platformArray.push("PC");
+            
+            }
+            if(this.state.PS4Check)
+            {
+
+                platformArray.push("PlayStation 4");
+            
+            }
+            if(this.state.PS5Check)
+            {
+                platformArray.push("PlayStation 5");
+               
+            }
+            if(this.state.XOneCheck)
+            {
+                platformArray.push("Xbox One");
+    
+            }
+            if(this.state.XSeriesCheck)
+            {
+                platformArray.push("Xbox Series X");
+            }
+            platform = [...platformArray];
+            //alert("this is platform, not platarray " + platform);
+        }
+        else
+        {
+            platform = undefined;   
+        }
+       
+       
+
+        await this.searchGame(genre, platform);
+
+    
         if(this.state.success)
         {
             
             console.log("we refactored the search all games!");
+            this.setState({success: false});
           
         }
         else
@@ -91,18 +155,16 @@ class AllGameSearch extends Component
         }
     }
 
-    searchGame = async (genre) =>
+    searchGame = async (genre, platform) =>
     {
         
-        //IMPORTANT: to test a certain game search parameter, change "name" to one of the other parameters, like "userCount"
+        //IMPORTANT: to test a certain game search parameter, change "name" to one of the other parameters not in there, 
+        //like "userCount"
 
-        //what I tried to test for a platform search
-        //let obj = {name: this.state.gameName, platform: ['Playstation 4']};
-
-        let obj = {name: this.state.gameName, genre: genre, platform: ['PlayStation 4']};
+        let obj = {name: this.state.gameName, genre: genre, platform: platform};
 
         let js = JSON.stringify(obj);
-        alert(js);
+        //alert(js);
         try
         {
             const response = await fetch(this.buildPath('api/games/searchAllGames'),
@@ -135,20 +197,14 @@ class AllGameSearch extends Component
                 }
 
             }
-            // for( var i=0; i<_results.length; i++ )
-            // {
-            //     resultText += _results[i];
-            //     if( i < _results.length - 1 )
-            //     {
-            //         resultText += ', ';
-            //     }
-            // }
-
            
             this.setMessage('Game(s) have been retrieved\n');
             this.setState({gameList: resultText});
             //setGameList(resultText);
+
+            //this is dangerous
             this.state.success = true;
+
             
         }
         catch(e)
@@ -156,7 +212,7 @@ class AllGameSearch extends Component
             alert(e.toString());
             this.setMessage(e.toString());
         }
-        alert("done");
+        //alert("done");
     };
 
     render()
@@ -190,35 +246,47 @@ class AllGameSearch extends Component
                     <Row xxl={4}>
                         <Col xs lg="9"> 
                             <div id="checkboxPlatforms">
-                                <Form.Group className="mb-3 w-50" controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Playstation 4" 
+                                <Form.Group className="mb-3 w-50" controlId="formPlatformCheckbox">
+
+                                    <Form.Check type="checkbox" id="PCCheck" label="PC" 
+                                                onChange ={e => {this.setState({PCCheck: e.target.checked});}}
+                                                checked={this.state.PCCheck}
+                                    />
+                                    <Form.Check type="checkbox" id="PS4Check" label="PlayStation 4" 
                                                 onChange ={e => {this.setState({PS4Check: e.target.checked}); console.log(this.state.PS4Check);}}
                                                 checked={this.state.PS4Check}
                                     />
-                                    <Form.Check type="checkbox" id="PS4Check" label="Playstation 5"
+                                    <Form.Check type="checkbox" id="PS5Check" label="PlayStation 5"
+                                                onChange ={e => {this.setState({PS5Check: e.target.checked});}}
+                                                checked={this.state.PS5Check}
                                                 
                                     />
-                                    <Form.Check type="checkbox" label="Xbox One"/>
-                                    <Form.Check type="checkbox" label="Xbox Series X"/>
+                                    <Form.Check type="checkbox" id = "XOneCheck" label="Xbox One"
+                                                onChange ={e => {this.setState({XOneCheck: e.target.checked});}}
+                                                checked={this.state.XOneCheck}
+                                    />
+                                    <Form.Check type="checkbox" id = "XSeriesCheck" label="Xbox Series X"
+                                                onChange ={e => {this.setState({XSeriesCheck: e.target.checked});}}
+                                                checked={this.state.XSeriesCheck}
+                                    />
                                 </Form.Group>
                             </div>
                         </Col>
                         <Col xs lg="9"> 
                             <div id="checkboxGenres">
-                                <Form.Group className="mb-3 w-50" controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="RPG" disabled={this.state.FPSCheck || this.state.ARPCheck}
+                                <Form.Group className="mb-3 w-50" controlId="formGenreCheckbox">
+                                    <Form.Check type="checkbox" id = "RPGCheck" label="RPG"
                                                 onChange ={e => {this.setState({RPGCheck: e.target.checked});}}
                                                 checked={this.state.RPGCheck}
                                     />
-                                    <Form.Check type="checkbox" label="FPS" disabled={this.state.RPGCheck || this.state.ARPCheck}
+                                    <Form.Check type="checkbox" id = "FPSCheck" label="FPS"
                                                 onChange ={e => {this.setState({FPSCheck: e.target.checked});}}
                                                 checked={this.state.FPSCheck}
                                     />
-                                    <Form.Check type="checkbox" label="Action Role Playing" disabled={this.state.RPGCheck || this.state.FPSCheck}
-                                                onChange ={e => {this.setState({ARPCheck: e.target.checked});}}
-                                                checked={this.state.ARPCheck}
+                                    <Form.Check type="checkbox" id = "ActionCheck" label="Action"
+                                                onChange ={e => {this.setState({ActionCheck: e.target.checked});}}
+                                                checked={this.state.ActionCheck}
                                     />
-                                    
                                 </Form.Group>
                             </div>
                         </Col>
