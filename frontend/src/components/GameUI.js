@@ -3,12 +3,14 @@ import Button from 'react-bootstrap/Button';
 import ModalComponent from './Modals/ModalComponent';
 import LoginModal from './Modals/LoginModal';
 import RegisterModal from './Modals/RegisterModal';
+import AllGameSearch from './AllGameSearch';
 
 function GameUI()
 {
 
     let game = '';
     let search = '';
+    let name = '';
     let steamId = '';
 
     const [message,setMessage] = useState('');
@@ -79,39 +81,49 @@ function GameUI()
 
     };
 
-    const searchGame = async event =>
-    {
-        event.preventDefault();
+    //-------------------------------------------------------------------------
+    //old un-refactored searchallgames code
+    // const searchGame = async event =>
+    // {
+    //     event.preventDefault();
 
-        let obj = {userId:userId,search:search.value};
-        let js = JSON.stringify(obj);
+    //     //IMPORTANT: to test a certain game search parameter, change "name" to one of the other parameters, like "userCount"
+    //     let obj = {name:search.value};
+    //     let js = JSON.stringify(obj);
+    //     alert(js);
+    //     try
+    //     {
+    //         const response = await fetch(buildPath('api/games/searchAllGames'),
+    //         {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+ 
+    //         if (response.status === 404)
+    //         {
+    //             alert('No game found');
+    //             return;
+    //         }
 
-        try
-        {
-            const response = await fetch(buildPath('api/searchgames'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+    //         let txt = await response.text();
+    //         let searchList = JSON.parse(txt);            
 
-            let txt = await response.text();
-            let res = JSON.parse(txt);
-            let _results = res.results;
-            let resultText = '';
-            for( var i=0; i<_results.length; i++ )
-            {
-                resultText += _results[i];
-                if( i < _results.length - 1 )
-                {
-                    resultText += ', ';
-                }
-            }
-            setResults('Game(s) have been retrieved');
-            setGameList(resultText);
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            setResults(e.toString());
-        }
-    };
+    //         //The response is an array of objects, so you need to
+    //         //iterate through them to get the desired data
+    //         for( var i=0; i<searchList.length; i++ )
+    //         {
+    //             console.log(searchList[i]);
+    //             console.log(searchList[i].name);
+    //         }
+
+    //         setResults('Game(s) have been retrieved');
+    //         //setGameList(resultText);
+    //     }
+    //     catch(e)
+    //     {
+    //         alert(e.toString());
+    //         setResults(e.toString());
+    //     }
+    //     alert("done");
+    // };
+    //---------------------------------------------------------------------------
 
     const getGamesList = async event =>
     {
@@ -191,17 +203,23 @@ function GameUI()
                 <br />
                 <Button type="submit" variant="dark" class="buttons"
                         onClick={goToHome}>Back to Home</Button><br/>
-                <input type="text" id="searchText" placeholder="Game To Search For"
+
+                {/* <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
-                <span id="gamwSearchResult">{searchResults}</span>
+                <span id="gameSearchResult">{searchResults}</span> */}
+                <AllGameSearch/>
                 <p id="gameList">{gameList}</p><br /><br />
+                
+                
                 <input type="text" id="gameText" placeholder="Game To Add"
                        ref={(c) => game = c} />
                 <button type="button" id="addGameButton" class="buttons"
                         onClick={addGame}> Add Game </button><br />
                 <span id="gameAddResult">{message}</span>
+                
+                
                 <input type="text" id="requestSteamIDText" placeholder="Enter your Steam ID"
                        ref={(c) => steamId = c} />
                 <button type="button" id="requestSteamIDBtn" class="buttons"
@@ -242,11 +260,12 @@ function GameUI()
                     componentType={RegisterModal}
                 />
                 <br/>
-                <input type="text" id="searchText" placeholder="Game To Search For"
+                {/* <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
-                <span id="gameSearchResult">{searchResults}</span>
+                <span id="gameSearchResult">{searchResults}</span> */}
+                <AllGameSearch/>
                 <p id="gameList">{gameList}</p><br /><br />
                 <input type="text" id="gameText" placeholder="Game To Add"
                        ref={(c) => game = c} />
@@ -254,7 +273,6 @@ function GameUI()
                         onClick={addGame}> Add Game </button><br />
                 <span id="gameAddResult">{message}</span>
             </div>
-
     }
 
 

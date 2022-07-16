@@ -8,6 +8,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
+import gamelogo from '../newgamelogo.png';
+import '../components/MainLogin.css';
+
 
 
 
@@ -27,7 +30,7 @@ function MainLogin()
         
         dynamicMain = 
         <div> 
-        <span id="inner-title">Welcome to MyGameList</span><br />
+        <span id="inner-title"></span><br />
         <p>you ARE already logged in! Your login is: {gimmieMoar.userName}</p>
         <LoggedInName />
         </div>
@@ -38,33 +41,37 @@ function MainLogin()
         
         dynamicMain = 
         <div>
-            <span id="inner-title">Welcome to MyGameList</span><br />
             
-            
-            <Navbar bg="light" expand="lg">
-                <Container>
-                    <Navbar.Brand>React-Bootstrap</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                       
-                            <ModalComponent
-                                buttonType ={"Login"}
-                                title={"Login"}
-                                body={""}
-                                componentType={LoginModal}
-                            />
-                       
-                        <Navbar.Text style={{marginLeft: '.5rem'}}>{''}</Navbar.Text>
-                            <ModalComponent
-                                buttonType ={"Register"}
-                                title={"Register"}
-                                body={""}
-                                componentType={RegisterModal}
-                            />
-                      
-                    </Nav>
-                    </Navbar.Collapse>
+            <Navbar  expand="lg">
+                
+                    <Container className='imgWrapper'>
+                        <a href="https://google.com" target="_blank" rel="noreferrer">
+                        <img src={gamelogo} className='logo' alt="game logo"/>
+                        </a>
+                    </Container>
+                    <Container className='loginWrapper'>
+                        <Navbar.Brand></Navbar.Brand>
+                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                        <Navbar.Collapse id="basic-navbar-nav">
+                            <Nav className="loginButtons">
+                            
+                                    <ModalComponent
+                                        buttonType ={"Login"}
+                                        title={"Login"}
+                                        body={""}
+                                        componentType={LoginModal}
+                                    />
+                            
+                                <Navbar.Text style={{marginLeft: '.5rem'}}>{''}</Navbar.Text>
+                                    <ModalComponent
+                                        buttonType ={"Register"}
+                                        title={"Register"}
+                                        body={""}
+                                        componentType={RegisterModal}
+                                    />
+                            
+                            </Nav>
+                        </Navbar.Collapse>
                 </Container>
             </Navbar>
         </div>
