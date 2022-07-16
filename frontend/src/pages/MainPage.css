@@ -1,5 +1,8 @@
-.rows{}
+.consolepics{
+    padding-top: 15px;
+    height: 200px;
+}
 
-.columns{
-    
+.consoleText{
+    padding-top: 20px;
 }
