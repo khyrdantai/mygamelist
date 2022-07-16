@@ -3,12 +3,12 @@ import React from 'react';
 import PageTitle from '../components/PageTitle';
 import MainLogin from '../components/MainLogin';
 import { Container, Row, Col } from 'react-bootstrap';
-import ps4 from '../ps4Pic.png';
-import xbox from '../xboxOnepic.png';
-import switchPic from '../switchPic.png';
-
+import ps4 from '../ps4Transparent.png';
+import xbox from '../xboxTransparent.png';
+import switchPic from '../switchTransparent.png';
+import Card from 'react-bootstrap/Card';
+import CSS from './MainPage.css';
 //import {withRouter} from 'react-router-dom';
-
 
 //this is the main page of the site
 //should display multiple clickable consoles that then display popular games
@@ -30,33 +30,83 @@ const MainPage = () =>
         
         {/*alert("did we get here!")}*/}
         <MainLogin />
-        <Container className="gamePics">
+
+   
+
+          <Container className="gamePics">
           <Row className="rows">
             <Col className="columns">
-            <a href="https://google.com" target="_blank" rel="noreferrer">
-              <img src={ps4} className='logo' alt="ps4"/>
-            </a>
+              <Card 
+              bg="light"
+              border="secondary"
+              key="Primary"
+              style={{width:'18rem',
+              height:'350px'}}
+              className="mb-2"
+              >
+                <a href="https://google.com" target="_blank" rel="noreferrer">
+                <Card.Img className='consolepics' variant="top" src={ps4}/>
+                </a>
+                <Card.Body className='consoleText'>
+                  <Card.Title> PlayStation 4 Games</Card.Title>
+                  <Card.Text>Check out some PlayStation 4 games!</Card.Text>
+                </Card.Body>
+                
+              </Card>
             </Col>
 
+             <Col className="columns">
+              <Card
+              border="secondary"
+              style={{width:'18rem',
+              height:'350px'}}
+              className="mb-2"
+              >
+            <a href="https://google.com" target="_blank" rel="noreferrer">
+              <Card.Img className='consolepics' variant='top' src={xbox}/>
+            </a>
+              <Card.Body className='consoleText'>
+                <Card.Title>Xbox One Games</Card.Title>
+                <Card.Text>Check out some Xbox One games!</Card.Text>
+              </Card.Body>
+            
+            </Card>
+            </Col> 
+          
+          
+          
+            
             <Col className="columns">
-            <a href="https://google.com" target="_blank" rel="noreferrer">
-              <img src={xbox} className='logo' alt="xbox"/>
-            </a>
+              <Card
+              border="secondary"
+              style={{width:'18rem',
+              height:'350px'}}
+              className="mb-2"
+              >
+                <a href="https://google.com" target="_blank" rel="noreferrer">
+                  <Card.Img className='consolepics' variant='top' src={switchPic}/>
+                </a>
+                  <Card.Body className='consoleText'>
+                    <Card.Title>Nintendo Switch Games</Card.Title>
+                    <Card.Text>Check out some Nintendo Switch games!</Card.Text>
+                  </Card.Body>
+                  
+                
+              </Card>
             </Col>
-          </Row>
-          <Row>
-            <Col></Col>
-          <Col className="columns">
-            <a href="https://google.com" target="_blank" rel="noreferrer">
-              <img src={switchPic} className='logo' alt="switch"/>
-            </a>
-            </Col>
-            <Col></Col>
-          </Row>
+            
+          </Row> 
         </Container>
+        
+        
+        
+        
         
       </div>
     );
 };
 
 export default MainPage;
+
+
+
