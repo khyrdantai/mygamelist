@@ -203,7 +203,6 @@ function GameUI()
                 <br />
                 <Button type="submit" variant="dark" class="buttons"
                         onClick={goToHome}>Back to Home</Button><br/>
-
                 {/* <input type="text" id="searchText" placeholder="Game To Search For"
                        ref={(c) => search = c} />
                 <button type="button" id="searchGameButton" class="buttons"
