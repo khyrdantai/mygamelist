@@ -1,10 +1,10 @@
 // public modules
 const mongoose = require('mongoose');
-const register_router = express.Router()
+
 
 // local modules
 const {client, express} = require("../db");
-
+const register_router = express.Router()
 //register api
 register_router.post('/', async (req, res) =>{
 
