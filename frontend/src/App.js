@@ -4,7 +4,7 @@ import image from './green.jpg';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { NavigationBar } from './components/NavigationBar';
+
 
 import GamePage from './pages/GamePage';
 import MainPage from './pages/MainPage';
