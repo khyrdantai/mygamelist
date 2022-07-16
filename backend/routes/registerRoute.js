@@ -1,11 +1,10 @@
 // public modules
-const express = require('express')
 const mongoose = require('mongoose');
-const register_router = express.Router()
+
 
 // local modules
-const {app, client} = require("../db");
-
+const {client, express} = require("../db");
+const register_router = express.Router()
 //register api
 register_router.post('/', async (req, res) =>{
 
@@ -16,7 +15,7 @@ register_router.post('/', async (req, res) =>{
   let  lastName = req.body.lastName
   let  userName = req.body.userName
   let  password = req.body.password
-  let  email = req.body.email   
+  let  email = req.body.email
   
   const db = client.db("MyGameListDB");
 
@@ -38,6 +37,7 @@ register_router.post('/', async (req, res) =>{
   else
   {
   // insert new user into database
+
   const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:password,email:email,userName:userName})
 
 
