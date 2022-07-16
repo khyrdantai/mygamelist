@@ -1,38 +1,29 @@
 // local modules
 const {client, express} = require("../db");
+const {user, get_token} = require("../authentication")
+
+//router to export
 const login_router = express.Router();
+
 
 //login api
 login_router.post('/', async (req, res) => {
-    // incoming: login, password
-    // outgoing: id, firstName, lastName, error
 
-    let error = '';
+  const {userName, password} = req.body
+  console.log(userName + " "+ password)
+  const user = {userName:userName, password:password}
 
-    const { userName, password } = req.body;
+  // create jwt token
+  let token = get_token(user)     
 
-    const db = client.db("MyGameListDB");
+  //connect to and access db
+  const db = client.db("MyGameListDB");
+  const results = await db.collection('Users').find(user).toArray();
 
-    const results = await db.collection('Users').find({userName:userName,password:password}).toArray();
+  // the return of the login function is the jwt token. this needs to be stored locally somwhere
+  let ret = {accessToken: token};
+  res.status(200).json(ret);
 
-
-    let id = -1;
-    let fn = '';
-    let ln = '';
-    let un = '';
-    let local_email = '';
-
-    if( results.length > 0 )
-    {
-      id = results[0]._id;
-      fn = results[0].firstName;
-      ln = results[0].lastName;
-      un = results[0].userName;
-      local_email = results[0].email;
-    }
-
-    let ret = { id:id, firstName:fn, lastName:ln, userName:un, email:local_email, error: error};
-    res.status(200).json(ret);
-  });
+});
 
 module.exports = login_router
