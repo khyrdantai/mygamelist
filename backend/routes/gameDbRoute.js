@@ -133,8 +133,20 @@ gameDbRoute_router.post('/updateGamesList', authenticate_token,async (req, res) 
       res.sendStatus(403)
     }else res.status(200).json(response)
   })
-  
+})
 
+gameDbRoute_router.post('/deleteGame', authenticate_token,async (req, res)=>{
+
+  let {_id, id} = req.body
+  userID = mongoose.Types.ObjectId(_id)
+
+  const response = await db.collection('Users').updateOne({_id:userID}, {$pull: {"games":{id: id}}})
+  
+  jwt.verify(req.token, initial_key, (err, authData) =>{
+    if(err){
+      res.sendStatus(403)
+    }else res.status(200).json({message: "delete successfull"})
+  })
 
 })
 
