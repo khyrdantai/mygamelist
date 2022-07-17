@@ -3,10 +3,9 @@ const mongoose = require('mongoose')
 const add_game_router = express.Router()
 const {authenticate_token, jwt, initial_key} = require('../authentication')
 console.log(initial_key)
-let key = initial_key
 
 add_game_router.post('/', authenticate_token, async (req, res) =>{
-    jwt.verify(req.token, 'key', (err, authData)=>{
+    jwt.verify(req.token, initial_key, (err, authData)=>{
         if(err){
             console.log(initial_key)
             console.log('made it here')

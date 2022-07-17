@@ -13,7 +13,7 @@ console.log(initial_key)
 // create token
 const get_token = function(user){
   user = user
-  return jwt.sign(user, 'key')
+  return jwt.sign(user, initial_key)
 }
 
 // middleware function for authenticating a user
