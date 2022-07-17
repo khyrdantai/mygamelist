@@ -60,21 +60,28 @@ register_router.post('/register', async (req, res) =>{
 //Search the database for the user and change verify field to true
 register_router.post('/verify', async (req, res) =>
 {
-  let userId = mongoose.Types.ObjectId(req.body.verifyId);
-  const db = client.db("MyGameListDB");
-  const verify_user = await db.collection('Users').updateOne({_id:userId}, { $set: {verified: true}});
-
-  if (verify_user.matchedCount === 0 && verify_user.modifiedCount === 0)
+  try
   {
-    res.status(404).send({message: 'Could not find user to verify'});
+    let userId = mongoose.Types.ObjectId(req.body.verifyId);
+    const db = client.db("MyGameListDB");
+    const verify_user = await db.collection('Users').updateOne({_id:userId}, { $set: {verified: true}});
+  
+    if (verify_user.matchedCount === 0 && verify_user.modifiedCount === 0)
+    {
+      res.status(404).send({message: 'Could not find user to verify'});
+    }
+    else if (verify_user.matchedCount === 1 && verify_user.modifiedCount === 0)
+    {
+      res.status(409).send({message: 'The user was found, but could not be verified'});
+    }
+    else
+    {
+      res.status(200).send({message: 'Thank you for verifying!'});
+    }
   }
-  else if (verify_user.matchedCount === 1 && verify_user.modifiedCount === 0)
+  catch (e)
   {
-    res.status(409).send({message: 'The user was found, but could not be verified'});
-  }
-  else
-  {
-    res.status(200).send({message: 'Thank you for verifying!'});
+    res.status(404).send({message: e});
   }
 })
 
