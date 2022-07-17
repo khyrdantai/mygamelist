@@ -11,6 +11,7 @@ add_game_router.post('/', authenticate_token, async (req, res) =>{
             console.log('made it here')
             res.sendStatus(403)
         }else{
+            console.log("Authentication success")
             res.json({
                 message:"post created...", 
                 authData
