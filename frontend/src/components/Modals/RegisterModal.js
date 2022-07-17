@@ -65,7 +65,6 @@ class RegisterModal extends Component
         };
 
         let js = JSON.stringify(obj);
-        let emailBody = JSON.stringify({email: obj.email});
         //alert(js);
 
         try
@@ -73,32 +72,36 @@ class RegisterModal extends Component
             //let build = this.buildPath('api/register');
             //alert(build);
             
-            const response = await fetch(this.buildPath('api/register'),
+            const response = await fetch(this.buildPath('api/register/register'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            //alert("we arrived past the api!");
 
             if (response.status === 409)
             {
                 alert(await response.text());
                 return;
             }
-            
-            console.log(js);
-            const emailRes = await fetch(this.buildPath('api/email/sendVerification'),
-            {method:'POST',body:emailBody,headers:{'Content-Type': 'application/json'}});
-            
-            if (emailRes.status === 404)
+            else if (response.status === 200)
             {
-                alert(await emailRes.text());
+                const regRes = await response.json();
+    
+                let emailBody = JSON.stringify({email: regRes.email, id:regRes.userId, firstName:regRes.firstName});
+    
+                const emailRes = await fetch(this.buildPath('api/email/sendVerification'),
+                {method:'POST',body:emailBody,headers:{'Content-Type': 'application/json'}});
+                
+                if (emailRes.status === 404)
+                {
+                    alert(await emailRes.text());
+                }
+    
+                //let res = JSON.parse(await response.text());
+    
+                //alert(res.id);
+                //alert("res status: " + res.status);
+                this.setMessage('');
+                this.state.success = true;
             }
 
-            let res = JSON.parse(await response.text());
-
-            //alert(res.id);
-            //alert("res status: " + res.status);
-            this.setMessage('');
-            this.state.success = true;
         }
         catch(e)
         {

@@ -21,6 +21,43 @@ const MainPage = () =>
     const currentPath = window.location.pathname;
     console.log(currentUrl);
     console.log(currentPath);
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const app_name = 'my-game-list-front'
+    function buildPath(route)
+    {
+        if (process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name +  '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
+
+    //Checks the url for the userId parameter. If it exist,
+    //assume the user has arrived via verification link and
+    //call the verify API
+    if(urlParams.has('userId'))
+    {
+        const verifyId = urlParams.get('userId');
+        const js = JSON.stringify({verifyId:verifyId});
+        try
+        {
+          fetch(buildPath('api/register/verify'),
+          {method:'POST',body:js,headers:{'Content-Type': 'application/json'}})
+          .then(response => response.json()
+          .then(json => {
+            alert(json.message);
+          }));
+        }
+        catch(e)
+        {
+          alert(e.toString());
+        }
+
+    }
 
     return(
       <div>

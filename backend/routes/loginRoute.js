@@ -10,7 +10,6 @@ const login_router = express.Router();
 login_router.post('/', async (req, res) => {
 
   const {userName, password} = req.body
-  console.log(userName + " "+ password)
   const user = {userName:userName, password:password}
 
   // create jwt token
@@ -20,10 +19,16 @@ login_router.post('/', async (req, res) => {
   const db = client.db("MyGameListDB");
   const results = await db.collection('Users').find(user).toArray();
 
-  // the return of the login function is the jwt token. this needs to be stored locally somwhere
-  let ret = {accessToken: token};
-  res.status(200).json(ret);
-
+  if (!results[0].verified)
+  {
+    res.status(401).send('Your account is not verified');
+  }
+  else
+  {
+    // the return of the login function is the jwt token. this needs to be stored locally somwhere
+    let ret = {accessToken: token};
+    res.status(200).json(ret);
+  }
 });
 
 module.exports = login_router
