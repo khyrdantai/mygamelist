@@ -31,7 +31,7 @@ gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
   // incoming: id
   // outgoing: An array of objects that contain {id: game's _id, rating: user's rating of game}
 
-  let id = req.body.id;
+  let id = mongoose.Types.ObjectId(req.body.id);
 
   const response = await db.collection('Users').find({_id:id}).toArray();
   
@@ -120,5 +120,22 @@ gameDbRoute_router.post('/searchAllGames', authenticate_token, async (req, res) 
     }else res.status(200).json({result, authData});
   })
 });
+
+gameDbRoute_router.post('/updateGamesList', authenticate_token,async (req, res) =>{
+
+  let {_id, id, rating} = req.body
+  userID = mongoose.Types.ObjectId(_id)
+
+  const response = await db.collection('Users').updateOne({"_id":userID, "games.id":id}, {$set:{"games.$.rating":rating}})
+
+  jwt.verify(req.token, initial_key, (err, authData) =>{
+    if(err){
+      res.sendStatus(403)
+    }else res.status(200).json(response)
+  })
+  
+
+
+})
 
 module.exports = gameDbRoute_router;
