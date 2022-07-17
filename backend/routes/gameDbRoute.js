@@ -1,11 +1,33 @@
 // public modules
 const {app, client, express} = require("../db");
 const gameDbRoute_router = express.Router();
+const mongoose = require('mongoose')
 const db = client.db('MyGameListDB');
+const{authenticate_token, jwt, initial_key} = require('../authentication')
+
+//Add game to list of user games
+gameDbRoute_router.post('/addUserGame', authenticate_token, async (req, res) =>{
+
+
+  let {_id, id, rating} = req.body
+  userID = mongoose.Types.ObjectId(_id)
+
+  const db = client.db("MyGameListDB");
+  const result = await db.collection('Users').updateOne({_id:userID} , { $push: {"games": {id:id, rating:rating}}})
+
+  jwt.verify(req.token, initial_key, (err, authData) =>{
+    if(err){
+      res.sendStatus(403)
+    }else res.status(200).json({result, authData});
+  })
+    
+ 
+})
 
 //Gets a user's list of games and ratings
-gameDbRoute_router.post('/getUserGames', async (req, res) =>
+gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
 {
+
   // incoming: id
   // outgoing: An array of objects that contain {id: game's _id, rating: user's rating of game}
 
@@ -26,15 +48,22 @@ gameDbRoute_router.post('/getUserGames', async (req, res) =>
         
         results.push(temp);
     });
+  }else res.sendStatus(404);
 
-    res.status(200).send(results);
-  }
 
-  res.status(404);
+  jwt.verify(req.token, initial_key, (err, authData) =>{
+    if(err){
+      res.sendStatus(403)
+    }else {
+      console.log("made it through verify")
+      res.status(200).json(results);
+    }
+  })
+
 });
 
 //
-gameDbRoute_router.post('/searchAllGames', async (req, res) =>
+gameDbRoute_router.post('/searchAllGames', authenticate_token, async (req, res) =>
 {
   /* incoming: Any number of the following
      id, averageRating, description, genre[], name, platform [], userCount, year
@@ -79,12 +108,17 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
         results.push(temp);
     });
 
-    res.status(200).json(results);
+    
   }
-  else
-  {
+  else{
     res.status(404).send('Not Found');
   }
+
+  jwt.verify(req.token, initial_key, (err, authData) =>{
+    if(err){
+      res.sendStatus(403)
+    }else res.status(200).json({result, authData});
+  })
 });
 
 module.exports = gameDbRoute_router;

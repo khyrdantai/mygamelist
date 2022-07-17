@@ -8,7 +8,6 @@ const generate_key = function() {
 
 // we need to be able to look at this value moving forward, so it stays up here
 const initial_key = generate_key()
-console.log(initial_key)
 
 // create token
 const get_token = function(user){
@@ -16,7 +15,7 @@ const get_token = function(user){
   return jwt.sign(user, initial_key)
 }
 
-// middleware function for authenticating a user
+// middleware function for authenticating a user on login
 const authenticate_token = function(req, res, next){
 
   const bearerHeader = req.headers['authorization']

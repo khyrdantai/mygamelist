@@ -1,13 +1,13 @@
-// public modules
+// modules
 const mongoose = require('mongoose');
-
-
-// local modules
 const {client, express} = require("../db");
-const register_router = express.Router()
-//register api
-register_router.post('/', async (req, res) =>{
+const {get_token, jwt, initial_key} = require("../authentication")
 
+//router to export
+const users_router = express.Router();
+
+//register api
+users_router.post('/register', async (req, res) =>{
 
   // new user data    
   let  _id = new mongoose.Types.ObjectId()
@@ -36,17 +36,32 @@ register_router.post('/', async (req, res) =>{
   }
   else
   {
+
   // insert new user into database
-
   const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:password,email:email,userName:userName})
-
-
+  
   res.status(200).json({
     message: "Registered new user"
   });
   }
 })
 
-register_router.post('/')
+//login api
+users_router.post('/login', async (req, res) => {
 
-module.exports = register_router
+  const {userName, password} = req.body
+  const user = {userName:userName, password:password} 
+
+  //connect to and access db
+  const db = client.db("MyGameListDB");
+  const RETURN_USER = await db.collection('Users').find(user).project({password: 0 , games: 0}).toArray();
+
+  jwt.sign({user:RETURN_USER}, initial_key, (err, token) =>{
+      res.json({
+        token:token
+      });
+    
+  })
+});
+
+module.exports = users_router
