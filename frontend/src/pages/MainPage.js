@@ -61,14 +61,11 @@ const MainPage = () =>
 
     return(
       <div>
-        
-        
+           
         <PageTitle />
         
         {/*alert("did we get here!")}*/}
         <MainLogin />
-
-   
 
           <Container className="gamePics">
           <Row className="rows">
@@ -108,10 +105,7 @@ const MainPage = () =>
               </Card.Body>
             
             </Card>
-            </Col> 
-          
-          
-          
+            </Col>  
             
             <Col className="columns">
               <Card
@@ -133,11 +127,7 @@ const MainPage = () =>
             </Col>
             
           </Row> 
-        </Container>
-        
-        
-        
-        
+        </Container>     
         
       </div>
     );

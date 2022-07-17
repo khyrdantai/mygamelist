@@ -7,12 +7,16 @@
 }
 
 .loginButtons{
-   
+    position: sticky;
+    left: 100%;
 }
 
 .loginWrapper{
 
-    padding-left: 70%;
+    position: sticky;
+    left: 100%;
 
 }
+
+
 
