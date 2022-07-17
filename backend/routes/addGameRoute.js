@@ -1,23 +1,31 @@
 const {client, express} = require("../db");
+const mongoose = require('mongoose')
 const add_game_router = express.Router()
-const parser = bodyParser = require('body-parser') 
-const authenticate_token = require('../authentication')
-const mongoose = require('mongoose');
+const {authenticate_token, jwt, initial_key} = require('../authentication')
+console.log(initial_key)
+let key = initial_key
 
-add_game_router.post('/',  async (req, res) =>{
-    let {id, rating, _id} = req.body;
+add_game_router.post('/', authenticate_token, async (req, res) =>{
+    jwt.verify(req.token, 'key', (err, authData)=>{
+        if(err){
+            console.log(initial_key)
+            console.log('made it here')
+            res.sendStatus(403)
+        }else{
+            res.json({
+                message:"post created...", 
+                authData
+            })
+        }
+    })
 
-    userID = mongoose.Types.ObjectId(_id);
-
-    console.log(id)
-    console.log(rating)
-    console.log(_id)
+    let {_id, id, rating} = req.body
+    userID = mongoose.Types.ObjectId(_id)
 
     const db = client.db("MyGameListDB");
-    const result = await db.collection('Users').updateOne({_id:userID} , { $push: {"games": {id:rating, rating:id}}})
-    
-    console.log(result);    
-    res.status(200).json(result);
+    const result = await db.collection('Users').updateOne({_id:userID} , { $push: {"games": {id:id, rating:rating}}})
+      
+    //res.status(200).json(result);
 })
 
 module.exports = add_game_router

@@ -8,28 +8,31 @@ const generate_key = function() {
 
 // we need to be able to look at this value moving forward, so it stays up here
 const initial_key = generate_key()
+console.log(initial_key)
 
 // create token
-const get_token = function(input){
-    return jwt.sign(input, initial_key)
+const get_token = function(user){
+  user = user
+  return jwt.sign(user, 'key')
 }
 
 // middleware function for authenticating a user
 const authenticate_token = function(req, res, next){
-    const auth_header = req.headers['authorization']
-    const token = auth_header && auth_header.split(' ')[1]
-    
-    if(token == null) return res.sendStatus(401)
 
-    jwt.verify(token, initial_key,(err, user)=>{
-      if(err) return res.sendStatus(403)
-      req.user = user
-      next()
-    })
-
+  const bearerHeader = req.headers['authorization']
+  
+  if(typeof bearerHeader !== 'undefined'){
+    const bearer = bearerHeader.split(' ')
+    const bearerToken = bearer[1]
+    req.token = bearerToken
+    next()
+  }else{
+    console.log("invalid token");
+    res.sendStatus(403)
   }
+}
 
 module.exports = 
 {
-    jwt, generate_key, authenticate_token, get_token 
+    jwt, generate_key, authenticate_token, get_token, initial_key 
 }

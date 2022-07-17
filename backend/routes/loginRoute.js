@@ -1,6 +1,6 @@
 // local modules
 const {client, express} = require("../db");
-const {user, get_token} = require("../authentication")
+const {get_token} = require("../authentication")
 
 //router to export
 const login_router = express.Router();
@@ -10,7 +10,6 @@ const login_router = express.Router();
 login_router.post('/', async (req, res) => {
 
   const {userName, password} = req.body
-  console.log(userName + " "+ password)
   const user = {userName:userName, password:password}
 
   // create jwt token
@@ -21,7 +20,7 @@ login_router.post('/', async (req, res) => {
   const results = await db.collection('Users').find(user).toArray();
 
   // the return of the login function is the jwt token. this needs to be stored locally somwhere
-  let ret = {accessToken: token};
+  let ret = {token: token};
   res.status(200).json(ret);
 
 });
