@@ -48,7 +48,7 @@ class LoginModal extends Component
         try
         {    
             //let build = this.buildPath('api/login');
-            const response = await fetch(this.buildPath('api/login'),
+            const response = await fetch(this.buildPath('api/users/login'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             if (response.status === 401)
@@ -59,7 +59,7 @@ class LoginModal extends Component
 
             let res = JSON.parse(await response.text());
 
-            //alert(res.id);
+            //alert(res.token);
             if( res.id <= 0 )
             {
                 this.setMessage('User/Password combination incorrect');
