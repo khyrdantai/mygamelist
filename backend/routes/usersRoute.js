@@ -60,6 +60,7 @@ users_router.post('/login', async (req, res) => {
   const db = client.db("MyGameListDB");
   
   const user = {userName: req.body.userName}
+  // 0 means false here, could be changed to "false" later
   const RETURN_USER = await db.collection('Users').find(user).project({firstName: 0, lastName: 0 , email:0, games: 0}).toArray()
 
   if(RETURN_USER == null){
@@ -76,14 +77,10 @@ users_router.post('/login', async (req, res) => {
           token:token
         });
       })
-    }
-    
+    }  
   }catch{
     res.status(500).send()
-  }
-
-
-  
+  }  
 });
 
 module.exports = users_router
