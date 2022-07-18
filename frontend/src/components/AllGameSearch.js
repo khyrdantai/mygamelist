@@ -6,9 +6,15 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
 
 
+const queryParams = new URLSearchParams(window.location.search);
+
+const platformURL = queryParams.get('platform');
+
+
 class AllGameSearch extends Component 
 {
 
+  
     constructor(props)
     {
         super(props);
@@ -155,6 +161,26 @@ class AllGameSearch extends Component
         }
     }
 
+    checkParams = async(platformURL) => {
+
+        alert("this is my alert");
+        alert(platformURL);
+
+        if(platformURL == ''){
+            // do nothing
+        }
+        else if(platformURL == 'PlayStation4'){
+            this.searchGame(undefined, 'PlayStation 4' );
+        }
+        else if(platformURL == 'Xbox'){
+            this.searchGame(undefined, 'Xbox One' );
+        }
+        else if(platformURL == 'Switch'){
+            this.searchGame(undefined, 'Switch' );
+        }
+
+    };
+
     searchGame = async (genre, platform) =>
     {
         
@@ -217,8 +243,31 @@ class AllGameSearch extends Component
 
     render()
     {
+        // checkParams(platformURL){
+
+        //     alert("this is my alert");
+        //     alert(platformURL);
+    
+        //     if(platformURL == ''){
+        //         // do nothing
+        //     }
+        //     else if(platformURL == 'PlayStation4'){
+        //         return this.searchGame(undefined, 'PlayStation 4' );
+        //     }
+        //     else if(platformURL == 'Xbox'){
+        //         return this.searchGame(undefined, 'Xbox One' );
+        //     }
+        //     else if(platformURL == 'Switch'){
+        //         return this.searchGame(undefined, 'Switch' );
+        //     }
+    
+        // };
+
         return(
+            
+            
             <Form>
+                <div> {this.checkParams(platformURL)}</div>
                 <Container>
                     <Row className="justify-content-md-center">   
                         <Col> 

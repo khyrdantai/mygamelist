@@ -4,6 +4,8 @@ import ModalComponent from './Modals/ModalComponent';
 import LoginModal from './Modals/LoginModal';
 import RegisterModal from './Modals/RegisterModal';
 import AllGameSearch from './AllGameSearch';
+import Badge from 'react-bootstrap/Badge';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 function GameUI()
 {
@@ -12,6 +14,12 @@ function GameUI()
     let search = '';
     let name = '';
     let steamId = '';
+
+    const queryParams = new URLSearchParams(window.location.search);
+    const platformURL = queryParams.get('platform');
+
+    alert(platformURL);
+
 
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
@@ -33,6 +41,26 @@ function GameUI()
     }
     else
     {
+
+    }
+
+    function checkParams(platformURL){
+
+        alert("this is my alert");
+        alert(platformURL);
+
+        if(platformURL == ''){
+            // do nothing
+        }
+        else if(platformURL == 'PlayStation4'){
+            this.searchGame(undefined, 'PlayStation 4' );
+        }
+        else if(platformURL == 'Xbox'){
+            this.searchGame(undefined, 'Xbox One' );
+        }
+        else if(platformURL == 'Switch'){
+            this.searchGame(undefined, 'Switch' );
+        }
 
     }
 
@@ -196,6 +224,7 @@ function GameUI()
 
     if(ud)
     {
+        checkParams(platformURL);
         //alert("what now: ");
         dynamic_game_search =
 
@@ -208,7 +237,10 @@ function GameUI()
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
                 <span id="gameSearchResult">{searchResults}</span> */}
+
+                <div>{checkParams(platformURL)}</div>
                 <AllGameSearch/>
+
                 <p id="gameList">{gameList}</p><br /><br />
                 
                 
@@ -233,6 +265,7 @@ function GameUI()
     {
         //alert("what then?");
 
+        checkParams(platformURL);
         dynamic_game_search =
 
             <div id="gameUIDiv">
@@ -264,8 +297,24 @@ function GameUI()
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
                 <span id="gameSearchResult">{searchResults}</span> */}
+                <div>{checkParams(platformURL)}</div>
                 <AllGameSearch/>
-                <p id="gameList">{gameList}</p><br /><br />
+
+                {/* <p id="gameList">{gameList}</p><br /><br /> */}
+                {/* To display the game results as a list */}
+                <ListGroup as="ol" numbered>
+                    <ListGroup.Item as="li" className="d-flex justify-content-between align-items-start">
+                        <div className='ms-2 me-auto' id="gameList">
+                            <div className='fw-bold'>Game Title</div>
+                            
+                            {gameList}
+                        </div>
+                        <Badge bg="secondary" pill>
+                            Rating
+                        </Badge>
+                    </ListGroup.Item>
+                </ListGroup>
+
                 <input type="text" id="gameText" placeholder="Game To Add"
                        ref={(c) => game = c} />
                 <button type="button" id="addGameButton" class="buttons"
