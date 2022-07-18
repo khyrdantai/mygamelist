@@ -34,9 +34,9 @@ gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
       // incoming: id
       // outgoing: An array of objects that contain {id: game's _id, rating: user's rating of game}
 
-      let id = mongoose.Types.ObjectId(req.body.id);
+      let _id = mongoose.Types.ObjectId(req.body._id);
 
-      const response = await db.collection('Users').find({_id:id}).toArray();
+      const response = await db.collection('Users').find({_id:_id}).toArray();
       
       let results = [];
 
@@ -52,19 +52,21 @@ gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
             
             results.push(temp);
         });
+
+        console.log("made it through verify")
+        res.status(200).json(results);
+
       }else {
         res.sendStatus(404)
       }
 
-      console.log("made it through verify")
-      res.status(200).json(results);
     }
   })
 
 });
 
 //
-gameDbRoute_router.post('/searchAllGames', authenticate_token, async (req, res) =>
+gameDbRoute_router.post('/searchAllGames', async (req, res) =>
 {
  
   /* incoming: Any number of the following
@@ -140,7 +142,7 @@ gameDbRoute_router.post('/deleteGame', authenticate_token,async (req, res)=>{
       let {_id, id} = req.body
       userID = mongoose.Types.ObjectId(_id)
 
-      const response = await db.collection('Users').deleteOne({_id:userID}, {"games.id":id})
+      const response = await db.collection('Users').updateOne({_id:userID}, {$pull: {"games":{id:id}}})
       res.status(200).json({message: "delete successfull"})
     }
   })
