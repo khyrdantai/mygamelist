@@ -43,27 +43,26 @@ users_router.post('/register', async (req, res) =>{
     else
     {
       // insert new user into database
-      const add_user = await db.collection('Users').insertOne(
-        {
-          _id:_id,
-          firstName:firstName, 
-          lastName:lastName,
-          password:password,
-          email:email, 
-          userName: userName,
-          games: [],
-          verified: false,
-          createdAt: new Date()
-        })
-        res.status(200).json({
-          message: "Registered new user",
-          userId: add_user.insertedId,
-          email: email,
-          firstName: firstName
-        });
+      const add_user = await db.collection('Users').insertOne({
+        _id:_id,
+        firstName:firstName, 
+        lastName:lastName,
+        password:hashed_password,
+        email:email, 
+        userName: userName,
+        games: [],
+        verified: false,
+        createdAt: new Date()
+      })
+      res.status(200).json({
+        message: "Registered new user",
+        userId: add_user.insertedId,
+        email: email,
+        firstName: firstName
+      });
     }
   }catch{
-  res.sendStatus(500).send
+    res.sendStatus(500).send
   }
 })
 
