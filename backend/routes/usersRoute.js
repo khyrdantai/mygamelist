@@ -43,10 +43,24 @@ users_router.post('/register', async (req, res) =>{
     else
     {
       // insert new user into database
-      const add_user = await db.collection('Users').insertOne({_id:_id,firstName:firstName, lastName:lastName,password:hashed_password,email:email,userName:userName})
-      
-      res.status(200).json({message: "added new user"});
-
+      const add_user = await db.collection('Users').insertOne(
+        {
+          _id:_id,
+          firstName:firstName, 
+          lastName:lastName,
+          password:password,
+          email:email, 
+          userName: userName,
+          games: [],
+          verified: false,
+          createdAt: new Date()
+        })
+        res.status(200).json({
+          message: "Registered new user",
+          userId: add_user.insertedId,
+          email: email,
+          firstName: firstName
+        });
     }
   }catch{
   res.sendStatus(500).send
@@ -67,20 +81,57 @@ users_router.post('/login', async (req, res) => {
     return res.status(400).send("cannot find user")
   }
 
-  const password = String(req.body.password)
-  const hash = String(RETURN_USER[0].password)
+  else if (!RETURN_USER[0].verified)
+  {
+    res.status(401).send('Your account is not verified');
+  }
+  else
+  {
+    const password = String(req.body.password)
+    const hash = String(RETURN_USER[0].password)
 
-  try{
-    if(async ()=>{bcrypt.compare(password, hash)} ){
-      jwt.sign({user:RETURN_USER}, initial_key, (err, token) =>{
-        res.json({
-          token:token
-        });
-      })
+    try{
+      if(async ()=>{bcrypt.compare(password, hash)} ){
+        jwt.sign({user:RETURN_USER}, initial_key, (err, token) =>{
+          res.json({
+            token:token
+          });
+        })
+      }  
+    }catch{
+      res.status(500).send()
     }  
-  }catch{
-    res.status(500).send()
-  }  
+  }
+  
 });
+
+//Search the database for the user and change verify field to true
+register_router.post('/verify', async (req, res) =>
+{
+  try
+  {
+    let userId = mongoose.Types.ObjectId(req.body.verifyId);
+    const db = client.db("MyGameListDB");
+    const verify_user = await db.collection('Users').updateOne({_id:userId}, { $set: {verified: true}});
+  
+    if (verify_user.matchedCount === 0 && verify_user.modifiedCount === 0)
+    {
+      res.status(404).send({message: 'Could not find user to verify'});
+    }
+    else if (verify_user.matchedCount === 1 && verify_user.modifiedCount === 0)
+    {
+      res.status(409).send({message: 'The user was found, but could not be verified'});
+    }
+    else
+    {
+      res.status(200).send({message: 'Thank you for verifying!'});
+    }
+  }
+  catch (e)
+  {
+    res.status(404).send({message: e});
+  }
+})
+
 
 module.exports = users_router
