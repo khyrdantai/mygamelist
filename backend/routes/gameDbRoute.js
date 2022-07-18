@@ -66,61 +66,52 @@ gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
 //
 gameDbRoute_router.post('/searchAllGames', authenticate_token, async (req, res) =>
 {
-  jwt.verify(req.token, initial_key, async (err, authData) =>{
+ 
+  /* incoming: Any number of the following
+  id, averageRating, description, genre[], name, platform [], userCount, year
 
-    if(err){
-      res.sendStatus(403)
-    }else{ 
-       /* incoming: Any number of the following
-      id, averageRating, description, genre[], name, platform [], userCount, year
+  outgoing: 
+  An array of objects that contains all of the data for every game that matches
+  the search results.
+  */ 
 
-      outgoing: 
-      An array of objects that contains all of the data for every game that matches
-      the search results.
-      */ 
-  
-      let searchParams = 
-      {
-        ... (req.body.id !== undefined) && { _id : req.body.id},
-        ... (req.body.averageRating !== undefined) && { averageRating : req.body.averageRating},
-        ... (req.body.description !== undefined) && { description : req.body.description},
-        ... (req.body.genre !== undefined) && { genre : { $all: req.body.genre}},
-        ... (req.body.name !== undefined) && { name : {$regex: req.body.name, $options: 'i'}},
-        ... (req.body.platform !== undefined) && { platform : { $all: req.body.platform}},
-        ... (req.body.userCount !== undefined) && { userCount : parseInt(req.body.userCount)},
-        ... (req.body.year !== undefined) && { year : req.body.year}
-      }
+  let searchParams = 
+  {
+    ... (req.body.id !== undefined) && { _id : req.body.id},
+    ... (req.body.averageRating !== undefined) && { averageRating : req.body.averageRating},
+    ... (req.body.description !== undefined) && { description : req.body.description},
+    ... (req.body.genre !== undefined) && { genre : { $all: req.body.genre}},
+    ... (req.body.name !== undefined) && { name : {$regex: req.body.name, $options: 'i'}},
+    ... (req.body.platform !== undefined) && { platform : { $all: req.body.platform}},
+    ... (req.body.userCount !== undefined) && { userCount : parseInt(req.body.userCount)},
+    ... (req.body.year !== undefined) && { year : req.body.year}
+  }
 
-      const response = await db.collection('Games').find(searchParams).toArray();
-        
-      let results = [];
+  const response = await db.collection('Games').find(searchParams).toArray();
+    
+  let results = [];
 
-      if (response.length > 0)
-      {
-        response.forEach((game) => 
+  if (response.length > 0)
+  {
+    response.forEach((game) => 
+    {
+        temp = 
         {
-            temp = 
-            {
-                id: game._id,
-                name: game.name,
-                description: game.description,
-                rating: game.averageRating,
-                release: game.year,
-                genre: game.genre,
-                platforms: game.platform,
-                userCount: game.userCount
-            }
-            
-            results.push(temp);
-        });
-      }
-      else{
-        res.status(404).send('Not Found');
-      }
-
-      res.status(200).json({results, authData})
+            id: game._id,
+            name: game.name,
+            description: game.description,
+            rating: game.averageRating,
+            release: game.year,
+            genre: game.genre,
+            platforms: game.platform,
+            userCount: game.userCount
+        }
+        results.push(temp)
     }
-  })
+  )}
+
+  res.status(200).json(results)
+  
 });
 
 gameDbRoute_router.post('/updateGamesList', authenticate_token,async (req, res) =>{
