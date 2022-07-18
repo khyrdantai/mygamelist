@@ -23,6 +23,8 @@ const MainPage = () =>
     console.log(currentPath);
     const urlParams = new URLSearchParams(window.location.search);
 
+    
+
     const app_name = 'my-game-list-front'
     function buildPath(route)
     {
@@ -34,6 +36,11 @@ const MainPage = () =>
         {
             return 'http://localhost:5000/' + route;
         }
+    }
+
+    function buildPlatformPath(platform)
+    {
+        return 'https://' + app_name +  '.herokuapp.com/games/?platform=' + platform;
     }
 
     //Checks the url for the userId parameter. If it exist,
@@ -78,7 +85,7 @@ const MainPage = () =>
               height:'350px'}}
               className="mb-2"
               >
-                <a href="https://google.com" target="_blank" rel="noreferrer">
+                <a href={buildPlatformPath('PlayStation4')}target="_blank" rel="noreferrer">
                 <Card.Img className='consolepics' variant="top" src={ps4}/>
                 </a>
                 <Card.Body className='consoleText'>
@@ -96,7 +103,7 @@ const MainPage = () =>
               height:'350px'}}
               className="mb-2"
               >
-            <a href="https://google.com" target="_blank" rel="noreferrer">
+            <a href= {buildPlatformPath('Xbox')} target="_blank" rel="noreferrer">
               <Card.Img className='consolepics' variant='top' src={xbox}/>
             </a>
               <Card.Body className='consoleText'>
@@ -114,7 +121,7 @@ const MainPage = () =>
               height:'350px'}}
               className="mb-2"
               >
-                <a href="https://google.com" target="_blank" rel="noreferrer">
+                <a href= {buildPlatformPath('Switch')} target="_blank" rel="noreferrer">
                   <Card.Img className='consolepics' variant='top' src={switchPic}/>
                 </a>
                   <Card.Body className='consoleText'>
