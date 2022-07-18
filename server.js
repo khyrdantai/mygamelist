@@ -4,13 +4,16 @@ const gameDbModel = require('./backend/routes/gameDbRoute')
 const steamModel = require('./backend/routes/steamRoute');
 
 // config DB folder stuff
+const emailModel = require('./backend/routes/emailRoute')
+
+// config folder stuff
 const {connectDB, app, PORT, express, path} = require("./backend/db");
 connectDB();
 
 app.use('/api/users', usersModel)
 app.use('/api/games', gameDbModel)
 app.use('/api/steam', steamModel)
-
+app.use('/api/email', emailModel)
 
 //start Node + Express server listener
 app.listen(PORT, () => 
