@@ -106,7 +106,7 @@ users_router.post('/login', async (req, res) => {
 });
 
 //Search the database for the user and change verify field to true
-register_router.post('/verify', async (req, res) =>
+users_router.post('/verify', async (req, res) =>
 {
   try
   {
