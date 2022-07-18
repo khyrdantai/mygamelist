@@ -80,10 +80,10 @@ users_router.post('/login', async (req, res) => {
     return res.status(400).send("cannot find user")
   }
 
-  // else if (!RETURN_USER[0].verified)
-  // {
-  //   res.status(401).send('Your account is not verified');
-  // }
+  else if (!RETURN_USER[0].verified)
+  {
+    res.status(401).send('Your account is not verified');
+  }
   else
   {
     const password = String(req.body.password)
