@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import ModalComponent from './Modals/ModalComponent';
 import LoginModal from './Modals/LoginModal';
@@ -14,17 +14,45 @@ function GameUI()
     let search = '';
     let name = '';
     let steamId = '';
+    let renderCheck = false;
 
     const queryParams = new URLSearchParams(window.location.search);
     const platformURL = queryParams.get('platform');
 
     alert(platformURL);
+    const allGameSearch = new AllGameSearch(); //we have to do this in order to call the searchGame function from AllGameSearch
 
 
     const [message,setMessage] = useState('');
     const [searchResults,setResults] = useState('');
     const [gameList,setGameList] = useState('');
     const [gamesList,setGamesList] = useState('');
+
+    //this will autorun only once on render
+    useEffect(() => 
+    {
+        alert('workk');
+        
+
+        alert("this is my alert");
+        alert(platformURL);
+
+        if(platformURL === null){
+            // do nothing
+        }
+        else if(platformURL === 'PlayStation4'){
+            alert("runn");
+            allGameSearch.searchGame(undefined, 'PlayStation 4');
+        }
+        else if(platformURL === 'Xbox'){
+            //this.searchGame(undefined, 'Xbox One' );
+        }
+        else if(platformURL === 'Switch'){
+            //this.searchGame(undefined, 'Switch' );
+        }
+    
+    }, [renderCheck])
+
 
 
     let _ud = localStorage.getItem('user_data');
@@ -44,25 +72,6 @@ function GameUI()
 
     }
 
-    function checkParams(platformURL){
-
-        alert("this is my alert");
-        alert(platformURL);
-
-        if(platformURL == ''){
-            // do nothing
-        }
-        else if(platformURL == 'PlayStation4'){
-            this.searchGame(undefined, 'PlayStation 4' );
-        }
-        else if(platformURL == 'Xbox'){
-            this.searchGame(undefined, 'Xbox One' );
-        }
-        else if(platformURL == 'Switch'){
-            this.searchGame(undefined, 'Switch' );
-        }
-
-    }
 
 
     const app_name = 'my-game-list-front'
@@ -224,7 +233,7 @@ function GameUI()
 
     if(ud)
     {
-        checkParams(platformURL);
+        //checkParams(platformURL);
         //alert("what now: ");
         dynamic_game_search =
 
@@ -238,7 +247,7 @@ function GameUI()
                         onClick={searchGame}> Search Game</button><br />
                 <span id="gameSearchResult">{searchResults}</span> */}
 
-                <div>{checkParams(platformURL)}</div>
+                {/* <div>{checkParams(platformURL)}</div> */}
                 <AllGameSearch/>
 
                 <p id="gameList">{gameList}</p><br /><br />
@@ -265,7 +274,7 @@ function GameUI()
     {
         //alert("what then?");
 
-        checkParams(platformURL);
+        //checkParams(platformURL);
         dynamic_game_search =
 
             <div id="gameUIDiv">
@@ -297,7 +306,7 @@ function GameUI()
                 <button type="button" id="searchGameButton" class="buttons"
                         onClick={searchGame}> Search Game</button><br />
                 <span id="gameSearchResult">{searchResults}</span> */}
-                <div>{checkParams(platformURL)}</div>
+                {/* <div>{checkParams(platformURL)}</div> */}
                 <AllGameSearch/>
 
                 {/* <p id="gameList">{gameList}</p><br /><br /> */}

@@ -188,11 +188,13 @@ class AllGameSearch extends Component
         //like "userCount"
 
         let obj = {name: this.state.gameName, genre: genre, platform: platform};
+        
 
         let js = JSON.stringify(obj);
         //alert(js);
         try
         {
+            alert(this.buildPath('api/games/searchAllGames'));
             const response = await fetch(this.buildPath('api/games/searchAllGames'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
  
@@ -267,7 +269,7 @@ class AllGameSearch extends Component
             
             
             <Form>
-                <div> {this.checkParams(platformURL)}</div>
+                
                 <Container>
                     <Row className="justify-content-md-center">   
                         <Col> 
