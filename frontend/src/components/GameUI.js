@@ -15,6 +15,7 @@ function GameUI()
     let name = '';
     let steamId = '';
     let renderCheck = false;
+    let afterRender = false;
 
     const queryParams = new URLSearchParams(window.location.search);
     const platformURL = queryParams.get('platform');
@@ -31,8 +32,21 @@ function GameUI()
     //this will autorun only once on render
     useEffect(() => 
     {
+        
+        afterRender = true;
+        console.log(afterRender);
+    
+    }, [renderCheck])
+
+    //this will autorun only once on render
+    useEffect(() => 
+    {
         alert('workk');
         
+        if(!afterRender)
+        {
+            return;
+        }
 
         alert("this is my alert");
         alert(platformURL);
@@ -42,7 +56,8 @@ function GameUI()
         }
         else if(platformURL === 'PlayStation4'){
             alert("runn");
-            allGameSearch.searchGame(undefined, 'PlayStation 4');
+            let platform = ['PlayStation 4'];
+            //allGameSearch.searchGame(undefined, platform);
         }
         else if(platformURL === 'Xbox'){
             //this.searchGame(undefined, 'Xbox One' );
@@ -51,7 +66,9 @@ function GameUI()
             //this.searchGame(undefined, 'Switch' );
         }
     
-    }, [renderCheck])
+    }, [afterRender])
+
+   
 
 
 
