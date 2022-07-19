@@ -78,12 +78,13 @@ users_router.post('/login', async (req, res) => {
     const RETURN_USER = await db.collection('Users').find(user).project({firstName: 0, lastName: 0 , email:0, games: 0}).toArray()
    
     if(RETURN_USER.length == 0){
-      return res.status(400).send("cannot find user")
+      return res.status(400).json({message: "Username not found"})
+    
     }
 
     else if (!RETURN_USER[0].verified)
     {
-      res.status(401).send('Your account is not verified');
+      res.status(401).send('account is not verified');
     }
 
     else
@@ -97,7 +98,7 @@ users_router.post('/login', async (req, res) => {
         console.log(password + " = " + hash + " ?")
         console.log(validPassword)
 
-        if (validPassword == false) return res.status(400).send('Invalid username or Password.')
+        if (validPassword == false) return res.status(400).send('Invalid Password.')
 
         jwt.sign({user:RETURN_USER}, initial_key, (err, token) =>{
           res.status(200).json({
@@ -106,7 +107,7 @@ users_router.post('/login', async (req, res) => {
          })
 
       }catch{
-        res.status(401).send("authorization error")
+        res.status(401).send("Authorization failed")
       }  
     }
 
