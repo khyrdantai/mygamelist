@@ -4,6 +4,7 @@ const {client, express} = require("../db");
 const {jwt, initial_key} = require("../authentication")
 const bcrypt = require('bcrypt');
 const { json } = require('body-parser');
+const { response } = require('express');
 
 //router to export
 const users_router = express.Router();
@@ -12,9 +13,8 @@ const users_router = express.Router();
 users_router.post('/register', async (req, res) =>{
 
   try{
-    //hash password
-    const salt = await bcrypt.genSalt()
-    const hashed_password = await(req.body.password, salt)
+    //hash password, 10 rounds of salting (default)
+    const hashed_password = await bcrypt.hash(req.body.password, 10)
     
     // new user data 
     let  _id = new mongoose.Types.ObjectId()
@@ -62,44 +62,57 @@ users_router.post('/register', async (req, res) =>{
       });
     }
   }catch{
-    res.sendStatus(500).send
+    res.sendStatus(500).send("Internal Server Error")
   }
 })
 
 //login api
 users_router.post('/login', async (req, res) => {
 
-  //connect to and access db
-  const db = client.db("MyGameListDB");
-  
-  const user = {userName: req.body.userName}
-  // 0 means false here, could be changed to "false" later
-  const RETURN_USER = await db.collection('Users').find(user).project({firstName: 0, lastName: 0 , email:0, games: 0}).toArray()
+  try{
+    //connect to and access db
+    const db = client.db("MyGameListDB");
+    
+    const user = {userName: req.body.userName}
+    // 0 means false here, could be changed to "false" later maybe?
+    const RETURN_USER = await db.collection('Users').find(user).project({firstName: 0, lastName: 0 , email:0, games: 0}).toArray()
+   
+    if(RETURN_USER.length == 0){
+      return res.status(400).send("cannot find user")
+    }
 
-  if(RETURN_USER == null){
-    return res.status(400).send("cannot find user")
-  }
-  else if (!RETURN_USER[0].verified)
-  {
-    res.status(401).send('Your account is not verified');
-  }
-  else
-  {
-    const password = String(req.body.password)
-    const hash = String(RETURN_USER[0].password)
+    else if (!RETURN_USER[0].verified)
+    {
+      res.status(401).send('Your account is not verified');
+    }
 
-    try{
-      if(async ()=>{bcrypt.compare(password, hash)} ){
+    else
+    {
+      const password = String(req.body.password)
+      const hash = String(RETURN_USER[0].password)
+
+      try{
+        const validPassword = await bcrypt.compare(req.body.password, hash);
+
+        console.log(password + " = " + hash + " ?")
+        console.log(validPassword)
+
+        if (validPassword == false) return res.status(400).send('Invalid username or Password.')
+
         jwt.sign({user:RETURN_USER}, initial_key, (err, token) =>{
-          res.json({
-            token:token
-          });
-        })
+          res.status(200).json({
+             token:token
+           });
+         })
+
+      }catch{
+        res.status(401).send("authorization error")
       }  
-    }catch{
-      res.status(500).send()
-    }  
-  }
+    }
+
+  }catch{
+    res.status(500).send("Internal Server Error")
+  } 
   
 });
 
