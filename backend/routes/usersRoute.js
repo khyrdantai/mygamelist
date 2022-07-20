@@ -75,7 +75,7 @@ users_router.post('/login', async (req, res) => {
     
     const user = {userName: req.body.userName}
     // 0 means false here, could be changed to "false" later maybe?
-    const RETURN_USER = await db.collection('Users').find(user).project({firstName: 0, lastName: 0 , email:0, games: 0}).toArray()
+    const RETURN_USER = await db.collection('Users').find(user).project({email:0, games: 0}).toArray()
    
     if(RETURN_USER.length == 0){
       return res.status(400).json({message: "Username not found"})
@@ -91,16 +91,15 @@ users_router.post('/login', async (req, res) => {
     {
       const password = String(req.body.password)
       const hash = String(RETURN_USER[0].password)
-
+  
       try{
         const validPassword = await bcrypt.compare(req.body.password, hash);
 
-        console.log(password + " = " + hash + " ?")
-        console.log(validPassword)
-
         if (validPassword == false) return res.status(400).send('Invalid Password.')
 
-        jwt.sign({user:RETURN_USER}, initial_key, (err, token) =>{
+        const return_user = {_id:RETURN_USER[0]._id,firstName:RETURN_USER[0].firstName,lastName:RETURN_USER[0].lastName, userName:RETURN_USER[0].userName}
+
+        jwt.sign({user:return_user}, initial_key, (err, token) =>{
           res.status(200).json({
              token:token
            });
