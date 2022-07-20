@@ -17,7 +17,7 @@ function MainLogin()
    
 
     let gimmie = localStorage.getItem('user');
-    alert("gimmie is " + gimmie );
+    //alert("gimmie is " + gimmie );
     //let gimmieMoar = JSON.parse(gimmie);
     let dynamicMain;
  
