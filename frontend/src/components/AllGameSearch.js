@@ -4,6 +4,7 @@ import {Modal, Button, Container, Row, Col} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
+import BasicTable from './Tables/BasicTable';
 
 
 class AllGameSearch extends Component 
@@ -17,8 +18,10 @@ class AllGameSearch extends Component
         {
             message: '',
             gameName: '',
-            gameList: '',
+            gameListString: '',
+            gameList: [],
             success: false,
+            
 
             //platforms
             PCCheck: false,
@@ -30,7 +33,8 @@ class AllGameSearch extends Component
            //genres
             RPGCheck: false,
             ActionCheck: false,
-            FPSCheck: false
+            FPSCheck: false,
+            IndieCheck: false,
         }
     }
 
@@ -70,7 +74,7 @@ class AllGameSearch extends Component
         let platform;
 
         //genre check
-        if(this.state.RPGCheck || this.state.FPSCheck || this.state.ActionCheck)
+        if(this.state.RPGCheck || this.state.FPSCheck || this.state.ActionCheck || this.state.IndieCheck)
         {
             let genreArray = [];
             if(this.state.RPGCheck)
@@ -87,6 +91,11 @@ class AllGameSearch extends Component
             if(this.state.ActionCheck)
             {
                 genreArray.push("Action");
+                
+            }
+            if(this.state.IndieCheck)
+            {
+                genreArray.push("Indie");
                 
             }
             
@@ -178,18 +187,23 @@ class AllGameSearch extends Component
 
             let txt = await response.text();
             let searchList = JSON.parse(txt); 
-            let resultText = '';           
+            let resultText = '';      
+            let resultGames = [];     
 
             //The response is an array of objects, so you need to
             //iterate through them to get the desired data
             for( var i=0; i<searchList.length; i++ )
             {
-                console.log(searchList[i]);
+                console.log(typeof(searchList[i]));
                 console.log(searchList[i].name);
                 resultText += searchList[i].name;
                 resultText += " \n platforms: "+ searchList[i].platforms + "\n";
                 resultText += " genre: "+ searchList[i].genre + "\n";
                 resultText += " release: "+ searchList[i].release + "\n";
+
+                resultGames.push(searchList[i]);
+
+                console.log("our boi: " + resultGames[i].platforms);
 
                 if( i < searchList.length - 1)
                 {
@@ -199,9 +213,11 @@ class AllGameSearch extends Component
             }
            
             this.setMessage('Game(s) have been retrieved\n');
-            this.setState({gameList: resultText});
-            //setGameList(resultText);
+            this.setState({gameListString: resultText});
+            this.setState({gameList: resultGames});
+            //setgameListString(resultText);
 
+            alert(this.state.gameList);
             //this is dangerous
             this.state.success = true;
 
@@ -218,6 +234,7 @@ class AllGameSearch extends Component
     render()
     {
         return(
+            <div>
             <Form>
                 <Container>
                     <Row className="justify-content-md-center">   
@@ -287,14 +304,22 @@ class AllGameSearch extends Component
                                                 onChange ={e => {this.setState({ActionCheck: e.target.checked});}}
                                                 checked={this.state.ActionCheck}
                                     />
+                                     <Form.Check type="checkbox" id = "IndieCheck" label="Indie"
+                                                onChange ={e => {this.setState({IndieCheck: e.target.checked});}}
+                                                checked={this.state.IndieCheck}
+                                    />
                                 </Form.Group>
                             </div>
                         </Col>
                     </Row>
-                            {this.state.message}
-                            <div id="gameFormat">{this.state.gameList} </div>
+                            {/* {this.state.message}
+                            <div id="gameFormat">{this.state.gameListString} </div> */}
+                            
                 </Container>
+                
             </Form>
+            <BasicTable payload = {this.state.gameList}/>
+            </div>
         )
     };
 

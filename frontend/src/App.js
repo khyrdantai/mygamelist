@@ -10,7 +10,6 @@ import GamePage from './pages/GamePage';
 import MainPage from './pages/MainPage';
 
 
-
 function App() {
 
   return (
@@ -22,6 +21,7 @@ function App() {
           <Route path="/games" index element={<GamePage />} />
         </Routes>
       </BrowserRouter>
+      
     </div>
   );
 }
