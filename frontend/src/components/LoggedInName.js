@@ -3,8 +3,8 @@ import React from 'react';
 function LoggedInName()
 {
 	
-    let _ud = localStorage.getItem('user_data');
-    let ud = JSON.parse(_ud);
+    let ud = localStorage.getItem('user');
+    //let ud = JSON.parse(_ud);
     
     let dynamicLogged;
 
@@ -14,7 +14,7 @@ function LoggedInName()
       const currentPath = window.location.pathname;
 	    event.preventDefault();
 
-        localStorage.removeItem("user_data")
+        localStorage.removeItem("user")
         window.location.href = currentPath;
 
     };   
@@ -22,14 +22,10 @@ function LoggedInName()
     if(ud)
     {
 
-        let userId = ud.id;
-        let firstName = ud.firstName;
-        let lastName = ud.lastName;
-        //alert("what now: ");
         dynamicLogged = 
 
         <div id="loggedInDiv">
-          <span id="userName">Logged In As {firstName} {lastName}</span><br />
+          <span id="userName">Logged In As {"it's a secret!"}</span><br />
           <button type="button" id="logoutButton" class="buttons" 
             onClick={doLogout}> Log Out </button>
         </div>

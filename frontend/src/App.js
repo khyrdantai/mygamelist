@@ -13,8 +13,6 @@ import MainPage from './pages/MainPage';
 
 function App() {
 
-  
-
   return (
     <div style={{ backgroundImage:`url(${image})`,backgroundSize: 'contain' }}>
       <BrowserRouter>
