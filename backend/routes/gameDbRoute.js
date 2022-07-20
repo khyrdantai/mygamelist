@@ -16,13 +16,16 @@ gameDbRoute_router.post('/addUserGame', authenticate_token, async (req, res) =>{
         let {_id, id, rating} = req.body
         userID = mongoose.Types.ObjectId(_id)
 
+        console.log(_id)
+        console.log(id)
+
         const db = client.db("MyGameListDB");
         
-        const response = await db.collection('Users').find({_id:userID}, {"games.id":id})
-        console.log(response)
+        //if the game is in the users list, you cant add a duplicate
+        const response = await db.collection('Users').find({_id:userID, "games.id":id}).toArray()
 
         if(response.length > 0){
-          res.status(200).json({message: "This game is already in this users list"})
+          return res.status(200).json({message: "This game is already in this users list"})
         }
         const result = await db.collection('Users').updateOne({_id:userID} , { $push: {"games": {id:id, rating:rating}}})
         
@@ -76,7 +79,7 @@ gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
       }
     })
   }catch{
-
+    res.status(403).json({message: "authentication error"})
   }
 })
 
@@ -128,7 +131,7 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
       })
     }
     else{
-      res.status(200).json({message: "No games found"})
+      return res.status(200).json({message: "No games found"})
     } 
 
     res.status(200).json(results)
@@ -138,36 +141,54 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
   
 });
 
-gameDbRoute_router.post('/updateGamesList', authenticate_token,async (req, res) =>{
+gameDbRoute_router.post('/updateGamesList', authenticate_token,async (req, res) =>{ 
+  try{
+    jwt.verify(req.token, initial_key, async (err, authData) =>{
+      if(err){
+        res.sendStatus(403)
+      }else {
+        try{
+          let {_id, id, rating} = req.body
+          userID = mongoose.Types.ObjectId(_id)
+  
+          const response = await db.collection('Users').updateOne({"_id":userID, "games.id":id}, {$set:{"games.$.rating":rating}})
+  
+          res.status(200).json(response)
+        }catch{
+          res.status(400).json({message: "failed to update game"})
+        }
+        
+      }
+    })
+  }catch{
+    res.status(403).json({message: "authentication error"})
+  } 
 
   
-
-  jwt.verify(req.token, initial_key, async (err, authData) =>{
-    if(err){
-      res.sendStatus(403)
-    }else {
-      let {_id, id, rating} = req.body
-      userID = mongoose.Types.ObjectId(_id)
-
-      const response = await db.collection('Users').updateOne({"_id":userID, "games.id":id}, {$set:{"games.$.rating":rating}})
-
-      res.status(200).json(response)}
-  })
 })
 
 gameDbRoute_router.post('/deleteGame', authenticate_token,async (req, res)=>{
+  try{
+    jwt.verify(req.token, initial_key, async (err, authData) =>{
+      if(err){
+        res.sendStatus(403)
+      }else {
+        try{
+          let {_id, id} = req.body
+          userID = mongoose.Types.ObjectId(_id)
+    
+          const response = await db.collection('Users').updateOne({_id:userID}, {$pull: {"games":{id:id}}})
+          res.status(200).json({message: "delete successfull"})
+        }catch{
+          res.status(400).json({message: "failed to delete game"})
+        }
+      }
+    })
+  }catch{
+    res.status(403).json({message: "authentication error"})
+  }
   
-  jwt.verify(req.token, initial_key, async (err, authData) =>{
-    if(err){
-      res.sendStatus(403)
-    }else {
-      let {_id, id} = req.body
-      userID = mongoose.Types.ObjectId(_id)
-
-      const response = await db.collection('Users').updateOne({_id:userID}, {$pull: {"games":{id:id}}})
-      res.status(200).json({message: "delete successfull"})
-    }
-  })
+  
 
 })
 
