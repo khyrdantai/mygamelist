@@ -2,6 +2,8 @@
 const {app, client, express} = require("../db");
 const gameDbRoute_router = express.Router();
 const db = client.db('MyGameListDB');
+const mongoose = require('mongoose');
+
 
 //Gets a user's list of games and ratings
 gameDbRoute_router.post('/getUserGames', async (req, res) =>
@@ -9,7 +11,7 @@ gameDbRoute_router.post('/getUserGames', async (req, res) =>
   // incoming: id
   // outgoing: An array of objects that contain {id: game's _id, rating: user's rating of game}
 
-  let id = req.body.id;
+  let id = mongoose.Types.ObjectId(req.body.id);
 
   const response = await db.collection('Users').find({_id:id}).toArray();
   

@@ -134,15 +134,21 @@ function GameUI()
 
         try
         {
-            const response = await fetch(buildPath('api/Steam/getSteamGames'),
+            const response = await fetch(buildPath('api/steam/getSteamGames'),
                 {method:'POST', mode: 'cors',body:js,headers:{'Content-Type': 'application/json'}});
 
             let txt = await response.text();
             let res = JSON.parse(txt);
+            //console.log(res);
+            //let fullList = await getGameNames(res);
+            let test = [
+                {appid: 3920, playtime_forever: 379, playtime_windows_forever: 0, playtime_mac_forever: 0, playtime_linux_forever: 0},
+                {appid: 4000, playtime_forever: 3109, playtime_windows_forever: 88, playtime_mac_forever: 0, playtime_linux_forever: 0},
+                {appid: 340, playtime_forever: 43, playtime_windows_forever: 0, playtime_mac_forever: 0, playtime_linux_forever: 0},
+            ]
+            let fullList = await getGameInfo(res);
 
-            let fullList = await getGameNames(res);
-
-            console.log(fullList);
+            //console.log(fullList);
             alert('Steam games have been retrieved');
         }
         catch(e)
@@ -152,6 +158,52 @@ function GameUI()
         }
     };
 
+    const getGameInfo = async (gameIdList) =>
+    {
+        const gameInfoArray = [];
+        try
+        {
+            await (async () => 
+            {
+
+                //await gameIdList.forEach(async (game) =>
+                for(let i = 0; i < 100; i ++)
+                {
+                    try
+                    {
+                        
+                        let js = JSON.stringify(gameIdList.response.games[i]);
+                        //console.log(js);
+                        const response = await fetch(buildPath('api/steam/getGameInfo'),
+                        {method:'POST', body:js, mode: 'cors', headers:{'Content-Type': 'application/json'}});
+
+                        if(response.status === 200)
+                        {
+                            let txt = await response.text();
+                            let res = JSON.parse(txt);
+                            gameInfoArray.push(res);
+                        }
+                        else if(response.status === 404)
+                        {
+                            let txt = await response.text()
+                            throw new Error('Unknown Game [' + i + '] = ' + txt);
+                        }
+                    }
+                    catch (e)
+                    {
+                        console.log(e.toString());
+                    }
+                };
+            })();
+            console.log(gameInfoArray)
+        }
+        catch (e)
+        {
+            alert(e.toString());
+        }
+    }
+
+    /*
     const getGameNames = async (appIdList) => 
     {
         const response = await fetch(buildPath('api/Steam/getAllGames'),
@@ -164,7 +216,6 @@ function GameUI()
         return parsedGames;
     }
 
-    
     const parseGameNames = (appIdList, gamesList) =>
     {
         let parsedGames = [];
@@ -180,6 +231,7 @@ function GameUI()
 
         return parsedGames;
     }
+    */
 
     const goToHome = async event =>
     {
