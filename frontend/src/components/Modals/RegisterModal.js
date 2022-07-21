@@ -72,7 +72,7 @@ class RegisterModal extends Component
             //let build = this.buildPath('api/register');
             //alert(build);
             
-            const response = await fetch(this.buildPath('api/register/register'),
+            const response = await fetch(this.buildPath('api/users/register'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             if (response.status === 409)

@@ -48,7 +48,7 @@ class LoginModal extends Component
         try
         {    
             //let build = this.buildPath('api/login');
-            const response = await fetch(this.buildPath('api/login'),
+            const response = await fetch(this.buildPath('api/users/login'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             if (response.status === 401)
@@ -57,10 +57,11 @@ class LoginModal extends Component
                 return;
             }
 
+        
             let res = JSON.parse(await response.text());
 
-            //alert(res.id);
-            if( res.id <= 0 )
+            //alert(res.token);
+            if(!res.token)
             {
                 this.setMessage('User/Password combination incorrect');
                 //alert("local storage is: " + localStorage.getItem('user_data'));
@@ -68,13 +69,16 @@ class LoginModal extends Component
             else
             {
                 
-                let user = {firstName:res.firstName,lastName:res.lastName,id:res.id, userName:res.userName}
-                localStorage.setItem('user_data', JSON.stringify(user));
-                //alert("local storage is: " + localStorage.getItem('user_data'));
+                // let user = {firstName:res.firstName,lastName:res.lastName,id:res.id, userName:res.userName}
+                // localStorage.setItem('user_data', JSON.stringify(user));
+                localStorage.setItem('user', res.token);
+                //alert("local storage is: " + localStorage.getItem('user'));
+                //sessionStorage.setItem('user', res.token);
+                //alert("session storage is: " + sessionStorage.getItem('user'));
 
                 //let gimmie = localStorage.getItem('user_data');
                 //let gimmieMoar = JSON.parse(gimmie);
-                //alert("paresed local storage is: " + gimmieMoar);
+                //alert("parsed local storage is: " + gimmieMoar);
                 
                 
                 //alert("hello: " + gimmieMoar.id + " " + gimmieMoar.firstName);
