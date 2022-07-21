@@ -4,6 +4,7 @@ import {Modal, Button, Container, Row, Col} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
+import AllGamesTable from './Tables/AllGamesTable';
 
 
 class AllGameSearch extends Component 
@@ -17,8 +18,10 @@ class AllGameSearch extends Component
         {
             message: '',
             gameName: '',
-            gameList: '',
+            gameListString: '',
+            gameList: [],
             success: false,
+            
 
             //platforms
             PCCheck: false,
@@ -31,6 +34,7 @@ class AllGameSearch extends Component
             RPGCheck: false,
             ActionCheck: false,
             FPSCheck: false,
+
             IndieCheck: false, 
             AdventureCheck: false, 
             CasualCheck: false, 
@@ -110,6 +114,7 @@ class AllGameSearch extends Component
             WordGameCheck: false, 
             WrestlingCheck: false,
 
+
         }
     }
 
@@ -149,6 +154,7 @@ class AllGameSearch extends Component
         let platform;
 
         //genre check
+
         if(this.state.RPGCheck || this.state.FPSCheck || this.state.ActionCheck || this.state.IndieCheck || this.state.AdventureCheck || this.state.CasualCheck || this.state.ExperimentalCheck || this.state.PuzzleCheck || 
             this.state.RacingCheck||
             this.state.SimulationCheck ||
@@ -224,6 +230,7 @@ class AllGameSearch extends Component
             this.state.WordGameCheck ||
             this.state.WrestlingCheck
 )
+
         {
             let genreArray = [];
             if(this.state.RPGCheck)
@@ -245,6 +252,7 @@ class AllGameSearch extends Component
             if(this.state.IndieCheck)
             {
                 genreArray.push("Indie");
+
             }
             if(this.state.AdventureCheck )
             {
@@ -561,6 +569,7 @@ class AllGameSearch extends Component
             // Golf, Hacking, Hidden Object, Hockey, Idler, Interactive Fiction, Management, Match 3, Medical sim, Mini Golf, Mining, MMORPG, Motocross, Open World, Outbreak Sim, Party Based RPG, Pinball, Platformer, Point & Click, Rhythm, Roguelike, RTS,
             //Sandbox, Shooter, Skateboarding, Skating, Skiing,  Snowboarding, Soccer, Space Sim, Stealth, Strategy RPG, Survival, Tennis, Tower Defense, Trivia, Turn-Based Strategy, Visual Novel, Walking Simulator, Word Game, Wrestling
 
+
             
             genre = [...genreArray];
             //alert("this is genre, not genrearray " + genre);
@@ -650,18 +659,31 @@ class AllGameSearch extends Component
 
             let txt = await response.text();
             let searchList = JSON.parse(txt); 
-            let resultText = '';           
+            let resultText = '';      
+            let resultGames = [];     
+            //console.log("searchlist: " + searchList[0].platforms[0]);
 
             //The response is an array of objects, so you need to
             //iterate through them to get the desired data
             for( var i=0; i<searchList.length; i++ )
             {
-                console.log(searchList[i]);
-                console.log(searchList[i].name);
+                //console.log(searchList[i].platforms);
+                //console.log(searchList[i].platforms[0]);
                 resultText += searchList[i].name;
                 resultText += " \n platforms: "+ searchList[i].platforms + "\n";
                 resultText += " genre: "+ searchList[i].genre + "\n";
                 resultText += " release: "+ searchList[i].release + "\n";
+
+                //platform string conversion
+                //platformArray.join(', ');
+                console.log("joined" + searchList[i].platforms.join(', '));
+
+                resultGames.push(searchList[i]);
+                console.log(resultGames[i].platforms);
+                resultGames[i].platforms = searchList[i].platforms.join(', ');
+                console.log(resultGames[i].platforms);
+
+                //console.log("our boi: " + resultGames[i].platforms[0]);
 
                 if( i < searchList.length - 1)
                 {
@@ -671,9 +693,11 @@ class AllGameSearch extends Component
             }
            
             this.setMessage('Game(s) have been retrieved\n');
-            this.setState({gameList: resultText});
-            //setGameList(resultText);
+            this.setState({gameListString: resultText});
+            this.setState({gameList: resultGames});
+            //setgameListString(resultText);
 
+            //alert(this.state.gameList);
             //this is dangerous
             this.state.success = true;
 
@@ -690,6 +714,7 @@ class AllGameSearch extends Component
     render()
     {
         return(
+            <div>
             <Form>
                 <Container>
                     <Row className="justify-content-md-center">   
@@ -759,6 +784,7 @@ class AllGameSearch extends Component
                                                 onChange ={e => {this.setState({ActionCheck: e.target.checked});}}
                                                 checked={this.state.ActionCheck}
                                     />
+
                                     <Form.Check type="checkbox" id = "IndieCheck" label="Indie"
                                                 onChange ={e => {this.setState({IndieCheck: e.target.checked});}}
                                                 checked={this.state.IndieCheck}
@@ -1072,14 +1098,19 @@ class AllGameSearch extends Component
                                     />
                                     
                                     
+
                                 </Form.Group>
                             </div>
                         </Col>
                     </Row>
-                            {this.state.message}
-                            <div id="gameFormat">{this.state.gameList} </div>
+                            {/* {this.state.message}
+                            <div id="gameFormat">{this.state.gameListString} </div> */}
+                            
                 </Container>
+                
             </Form>
+            <AllGamesTable payload = {this.state.gameList}/>
+            </div>
         )
     };
 
