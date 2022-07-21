@@ -337,7 +337,7 @@ class AllGameSearch extends Component
             }
             if(this.state.CardGameCheck)
             {
-                genreArray.push("Card Gsme");
+                genreArray.push("Card Game");
             } 
             if(this.state.CharacterActionGameCheck) 
             {
