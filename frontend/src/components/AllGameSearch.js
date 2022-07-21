@@ -38,7 +38,6 @@ class AllGameSearch extends Component
             IndieCheck: false, 
             AdventureCheck: false, 
             CasualCheck: false, 
-            ExperimentalCheck: false, 
             PuzzleCheck: false, 
             RacingCheck: false, 
             SimulationCheck: false, 
