@@ -5,7 +5,7 @@ import 'rsuite-table/lib/less/index.less';
 
 
 
-class BasicTable extends Component 
+class AllGamesTable extends Component 
 {
     
     constructor(props)
@@ -82,7 +82,7 @@ class BasicTable extends Component
         this.setState({ sortColumn: sortColumnn});
         this.setState({ sortType: sortTypee}); 
         //alert(this.state.sortColumn);
-        alert(this.state.sortType);
+        //alert(this.state.sortType);
     };
 
     render()
@@ -91,8 +91,8 @@ class BasicTable extends Component
             <div id='allGamesTable'>
             
             <Table 
-            virtualized
             height={700}
+            wordWrap="break-word"
             autoHeight= {false}
             fillHeight= {false}
             align = 'right'
@@ -102,22 +102,22 @@ class BasicTable extends Component
             sortType={this.state.sortType}
             onSortColumn={this.handleSortColumn}
             data={this.getData()}>
-                <Column width={100} align='center' sortable>
+                <Column width={100} align='center' verticalAlign='middle'>
                 <HeaderCell>ID</HeaderCell>
                 <Cell dataKey="id" />
                 </Column>
 
-                <Column width={100} flexGrow= {2} align='center' sortable>
+                <Column width={100} flexGrow= {2} align='center' verticalAlign='middle' sortable>
                 <HeaderCell>Name</HeaderCell>
                 <Cell dataKey="name" />
                 </Column>
 
-                <Column width={100} flexGrow= {2} align='center' >
+                <Column width={100} flexGrow= {2} align='center' verticalAlign='middle'>
                 <HeaderCell>Platforms</HeaderCell>
                 <Cell dataKey='platforms'/>
                 </Column>
 
-                <Column width={100} flexGrow= {2} align='center' >
+                <Column width={100} flexGrow= {2} align='center' verticalAlign='middle'>
                 <HeaderCell>Genres</HeaderCell>
                 <Cell dataKey='genre'/>
                 </Column>
@@ -128,4 +128,4 @@ class BasicTable extends Component
 
 }
 
-export default BasicTable;
+export default AllGamesTable;

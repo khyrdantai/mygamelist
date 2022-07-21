@@ -4,7 +4,7 @@ import {Modal, Button, Container, Row, Col} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
-import BasicTable from './Tables/BasicTable';
+import AllGamesTable from './Tables/AllGamesTable';
 
 
 class AllGameSearch extends Component 
@@ -189,21 +189,29 @@ class AllGameSearch extends Component
             let searchList = JSON.parse(txt); 
             let resultText = '';      
             let resultGames = [];     
+            //console.log("searchlist: " + searchList[0].platforms[0]);
 
             //The response is an array of objects, so you need to
             //iterate through them to get the desired data
             for( var i=0; i<searchList.length; i++ )
             {
-                console.log(typeof(searchList[i]));
-                console.log(searchList[i].name);
+                //console.log(searchList[i].platforms);
+                //console.log(searchList[i].platforms[0]);
                 resultText += searchList[i].name;
                 resultText += " \n platforms: "+ searchList[i].platforms + "\n";
                 resultText += " genre: "+ searchList[i].genre + "\n";
                 resultText += " release: "+ searchList[i].release + "\n";
 
-                resultGames.push(searchList[i]);
+                //platform string conversion
+                //platformArray.join(', ');
+                console.log("joined" + searchList[i].platforms.join(', '));
 
-                console.log("our boi: " + resultGames[i].platforms);
+                resultGames.push(searchList[i]);
+                console.log(resultGames[i].platforms);
+                resultGames[i].platforms = searchList[i].platforms.join(', ');
+                console.log(resultGames[i].platforms);
+
+                //console.log("our boi: " + resultGames[i].platforms[0]);
 
                 if( i < searchList.length - 1)
                 {
@@ -217,7 +225,7 @@ class AllGameSearch extends Component
             this.setState({gameList: resultGames});
             //setgameListString(resultText);
 
-            alert(this.state.gameList);
+            //alert(this.state.gameList);
             //this is dangerous
             this.state.success = true;
 
@@ -318,7 +326,7 @@ class AllGameSearch extends Component
                 </Container>
                 
             </Form>
-            <BasicTable payload = {this.state.gameList}/>
+            <AllGamesTable payload = {this.state.gameList}/>
             </div>
         )
     };

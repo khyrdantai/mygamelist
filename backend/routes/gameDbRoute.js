@@ -46,7 +46,7 @@ gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
         {
             temp = 
             {
-                id: game.id,
+                name: game.id,
                 rating: game.rating
             }
             
@@ -111,6 +111,7 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
         results.push(temp)
     }
   )}
+ 
 
   res.status(200).json(results)
   
