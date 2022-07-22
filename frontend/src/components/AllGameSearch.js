@@ -21,6 +21,7 @@ class AllGameSearch extends Component
             gameListString: '',
             gameList: [],
             success: false,
+         
             
 
             //platforms
@@ -694,6 +695,7 @@ class AllGameSearch extends Component
             this.setMessage('Game(s) have been retrieved\n');
             this.setState({gameListString: resultText});
             this.setState({gameList: resultGames});
+            
             //setgameListString(resultText);
 
             //alert(this.state.gameList);
@@ -1096,8 +1098,6 @@ class AllGameSearch extends Component
                                                 checked={this.state.WrestlingCheck}
                                     />
                                     
-                                    
-
                                 </Form.Group>
                             </div>
                         </Col>
