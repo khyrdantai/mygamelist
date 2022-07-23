@@ -79,7 +79,7 @@ class AllGamesTable extends Component
         //alert(e.detail);
         
         
-        
+        //when double clicking on a row
         if(e.detail === 2)
         {
           console.log("yayyyy");
@@ -100,7 +100,6 @@ class AllGamesTable extends Component
             
           )
          
-          
         }
         else
         {
@@ -111,6 +110,7 @@ class AllGamesTable extends Component
               
               variable:  
                         <div>
+                           {/* <img src={rowData.cover} alt="game cover picture" /> */}
                         </div>
             
             }
@@ -124,6 +124,7 @@ class AllGamesTable extends Component
         return(
             <div id='allGamesTable'>
             {this.state.variable}
+    
             <Table 
             height={700}
             wordWrap="break-word"
@@ -138,7 +139,6 @@ class AllGamesTable extends Component
             onRowClick={(this.handleRowClick)}
             data={this.getData()}
             >
-            
                 {/* <Column width={100} flexGrow= {2} align='center' verticalAlign='middle' sortable>
                   <HeaderCell>Name</HeaderCell>
                   <Cell >

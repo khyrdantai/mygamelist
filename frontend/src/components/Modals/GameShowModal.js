@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Modal, Button, Form} from 'react-bootstrap';
+import withRouter from '../withRouter';
+
 
 class GameShowModal extends Component
 {
@@ -24,17 +26,29 @@ class GameShowModal extends Component
         
     };
 
-    handleClose = (fromModal) => {
-        //alert(fromModal.msg);
+    handleClose = () => {
+        
         this.setState({
             show: false
         });
     };
 
+    handleGamePage = (data) => {
+        
+        this.setState({
+            show: false
+        });
+        //alert(data.id);
+        //window.location.href = '/games/' + data.name;
+        this.props.router.navigate('/games/' + data.name, {state: {data: data}});
+        //console.log(this.props.router.location);
+        
+
+    };
+
     render()
     {
         
-
         return(
             <div>
                  <Modal show={this.state.show} onHide={() => {this.handleClose()}}>
@@ -55,7 +69,7 @@ class GameShowModal extends Component
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => {this.handleClose()}}>Close</Button>
-                        <Button variant="primary" onClick={() => {alert("soon")}}>Submit</Button>
+                        <Button variant="primary" onClick={() => {this.handleGamePage(this.props.rowData)}}>Game Page</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -63,4 +77,4 @@ class GameShowModal extends Component
     }
 }
 
-export default GameShowModal;
+export default withRouter(GameShowModal);
