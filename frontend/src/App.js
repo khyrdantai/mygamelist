@@ -10,10 +10,7 @@ import GamePage from './pages/GamePage';
 import MainPage from './pages/MainPage';
 
 
-
 function App() {
-
-  
 
   return (
     <div style={{ backgroundImage:`url(${image})`,backgroundSize: 'contain' }}>
@@ -24,6 +21,7 @@ function App() {
           <Route path="/games" index element={<GamePage />} />
         </Routes>
       </BrowserRouter>
+      
     </div>
   );
 }

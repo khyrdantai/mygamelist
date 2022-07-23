@@ -19,17 +19,14 @@ function GameUI()
     const [gamesList,setGamesList] = useState('');
 
 
-    let _ud = localStorage.getItem('user_data');
-    let ud = JSON.parse(_ud);
+    let ud = localStorage.getItem('user');
     let userId;
     let firstName;
     let lastName;
 
     if(ud)
     {
-        userId = ud.id;
-        firstName = ud.firstName;
-        lastName = ud.lastName;
+
     }
     else
     {
@@ -50,80 +47,6 @@ function GameUI()
         }
     }
 
-    const addGame = async event =>
-    {
-        event.preventDefault();
-
-        let obj = {userId:userId,game:game.value};
-        let js = JSON.stringify(obj);
-
-        try
-        {
-            const response = await fetch(buildPath('api/addgame'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            let txt = await response.text();
-            let res = JSON.parse(txt);
-
-            if( res.error.length > 0 )
-            {
-                setMessage( "API Error:" + res.error );
-            }
-            else
-            {
-                setMessage('Game has been added');
-            }
-        }
-        catch(e)
-        {
-            setMessage(e.toString());
-        }
-
-    };
-
-    //-------------------------------------------------------------------------
-    //old un-refactored searchallgames code
-    // const searchGame = async event =>
-    // {
-    //     event.preventDefault();
-
-    //     //IMPORTANT: to test a certain game search parameter, change "name" to one of the other parameters, like "userCount"
-    //     let obj = {name:search.value};
-    //     let js = JSON.stringify(obj);
-    //     alert(js);
-    //     try
-    //     {
-    //         const response = await fetch(buildPath('api/games/searchAllGames'),
-    //         {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
- 
-    //         if (response.status === 404)
-    //         {
-    //             alert('No game found');
-    //             return;
-    //         }
-
-    //         let txt = await response.text();
-    //         let searchList = JSON.parse(txt);            
-
-    //         //The response is an array of objects, so you need to
-    //         //iterate through them to get the desired data
-    //         for( var i=0; i<searchList.length; i++ )
-    //         {
-    //             console.log(searchList[i]);
-    //             console.log(searchList[i].name);
-    //         }
-
-    //         setResults('Game(s) have been retrieved');
-    //         //setGameList(resultText);
-    //     }
-    //     catch(e)
-    //     {
-    //         alert(e.toString());
-    //         setResults(e.toString());
-    //     }
-    //     alert("done");
-    // };
-    //---------------------------------------------------------------------------
 
     const getGamesList = async event =>
     {
@@ -185,38 +108,21 @@ function GameUI()
     {
         window.location.href = '/';
     }
-    const goToLogin = async event =>
-    {
-        window.location.href = '/login';
-    }
-
+   
 
     let dynamic_game_search;
 
 
     if(ud)
     {
-        //alert("what now: ");
         dynamic_game_search =
 
             <div id="gameUIDiv">
                 <br />
                 <Button type="submit" variant="dark" class="buttons"
                         onClick={goToHome}>Back to Home</Button><br/>
-                {/* <input type="text" id="searchText" placeholder="Game To Search For"
-                       ref={(c) => search = c} />
-                <button type="button" id="searchGameButton" class="buttons"
-                        onClick={searchGame}> Search Game</button><br />
-                <span id="gameSearchResult">{searchResults}</span> */}
                 <AllGameSearch/>
                 <p id="gameList">{gameList}</p><br /><br />
-                
-                
-                <input type="text" id="gameText" placeholder="Game To Add"
-                       ref={(c) => game = c} />
-                <button type="button" id="addGameButton" class="buttons"
-                        onClick={addGame}> Add Game </button><br />
-                <span id="gameAddResult">{message}</span>
                 
                 
                 <input type="text" id="requestSteamIDText" placeholder="Enter your Steam ID"
@@ -231,7 +137,6 @@ function GameUI()
     }
     else
     {
-        //alert("what then?");
 
         dynamic_game_search =
 
@@ -259,22 +164,10 @@ function GameUI()
                     componentType={RegisterModal}
                 />
                 <br/>
-                {/* <input type="text" id="searchText" placeholder="Game To Search For"
-                       ref={(c) => search = c} />
-                <button type="button" id="searchGameButton" class="buttons"
-                        onClick={searchGame}> Search Game</button><br />
-                <span id="gameSearchResult">{searchResults}</span> */}
                 <AllGameSearch/>
                 <p id="gameList">{gameList}</p><br /><br />
-                <input type="text" id="gameText" placeholder="Game To Add"
-                       ref={(c) => game = c} />
-                <button type="button" id="addGameButton" class="buttons"
-                        onClick={addGame}> Add Game </button><br />
-                <span id="gameAddResult">{message}</span>
             </div>
     }
-
-
 
     return(
         <div>

@@ -119,6 +119,7 @@ users_router.post('/login', async (req, res) => {
 //Search the database for the user and change verify field to true
 users_router.post('/verify', async (req, res) =>
 {
+  //incoming: verifyId
   try
   {
     let userId = mongoose.Types.ObjectId(req.body.verifyId);
@@ -144,5 +145,35 @@ users_router.post('/verify', async (req, res) =>
   }
 })
 
+//Search the database for the user and change their password
+users_router.post('/passwordReset', async (req, res) =>
+{
+  //incoming: userId, password
+  try
+  {
+    const hashed_password = await bcrypt.hash(req.body.password, 10)
+
+    let userId = mongoose.Types.ObjectId(req.body.userId);
+    const db = client.db("MyGameListDB");
+    const reset_password = await db.collection('Users').updateOne({_id:userId}, { $set: {password: hashed_password}})
+
+    if (reset_password.matchedCount === 0 && reset_password.modifiedCount === 0)
+    {
+      res.status(404).send({message: 'Could not find user to change password'});
+    }
+    else if (reset_password.matchedCount === 1 && reset_password.modifiedCount === 0)
+    {
+      res.status(409).send({message: 'The user was found, but password could not be changed'});
+    }
+    else
+    {
+      res.status(200).send({message: 'Password changed!'});
+    }
+  }
+  catch (e)
+  {
+    res.status(404).send({message: e});
+  }
+})
 
 module.exports = users_router

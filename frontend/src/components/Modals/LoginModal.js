@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import jwt_decode from "jwt-decode";
 
 
 class LoginModal extends Component 
@@ -57,10 +58,11 @@ class LoginModal extends Component
                 return;
             }
 
+        
             let res = JSON.parse(await response.text());
 
             //alert(res.token);
-            if( res.id <= 0 )
+            if(!res.token)
             {
                 this.setMessage('User/Password combination incorrect');
                 //alert("local storage is: " + localStorage.getItem('user_data'));
@@ -68,13 +70,22 @@ class LoginModal extends Component
             else
             {
                 
-                let user = {firstName:res.firstName,lastName:res.lastName,id:res.id, userName:res.userName}
-                localStorage.setItem('user_data', JSON.stringify(user));
-                //alert("local storage is: " + localStorage.getItem('user_data'));
+                // let user = {firstName:res.firstName,lastName:res.lastName,id:res.id, userName:res.userName}
+                // localStorage.setItem('user_data', JSON.stringify(user));
+                localStorage.setItem('user', res.token);
+                //console.log("local storage is: " + localStorage.getItem('user'));
+                //let decoded = jwt_decode(localStorage.getItem('user'));
+                //alert("we can get: " + JSON.stringify(decoded, null, 4));
+                //alert("we can even get: " + JSON.stringify(decoded.user[0].userName, null, 4));
+                //alert(decoded.user[0]._id);
+
+                //session storage makes it so it clears storage upon refresh/closing the browser
+                //sessionStorage.setItem('user', res.token);
+                //alert("session storage is: " + sessionStorage.getItem('user'));
 
                 //let gimmie = localStorage.getItem('user_data');
                 //let gimmieMoar = JSON.parse(gimmie);
-                //alert("paresed local storage is: " + gimmieMoar);
+                //alert("parsed local storage is: " + gimmieMoar);
                 
                 
                 //alert("hello: " + gimmieMoar.id + " " + gimmieMoar.firstName);

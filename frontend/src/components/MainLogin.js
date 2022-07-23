@@ -12,26 +12,24 @@ import gamelogo from '../newgamelogo.png';
 import '../components/MainLogin.css';
 
 
-
-
-
 function MainLogin()
 {
    
 
-    let gimmie = localStorage.getItem('user_data');
-    let gimmieMoar = JSON.parse(gimmie);
+    let userInfo = localStorage.getItem('user');
+    //alert("userInfo is " + userInfo );
+    //let userInfoMoar = JSON.parse(userInfo);
     let dynamicMain;
-    
+ 
     
 
-    if(gimmieMoar)
+    if(userInfo)
     {
         
         dynamicMain = 
         <div> 
         <span id="inner-title"></span><br />
-        <p>you ARE already logged in! Your login is: {gimmieMoar.userName}</p>
+        <p>you ARE already logged in!</p>
         <LoggedInName />
         </div>
         

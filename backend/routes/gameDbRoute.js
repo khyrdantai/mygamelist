@@ -81,13 +81,11 @@ gameDbRoute_router.post('/getUserGames', authenticate_token, async (req, res) =>
   }catch{
     res.status(403).json({message: "authentication error"})
   }
-})
-
+});
 
 //
 gameDbRoute_router.post('/searchAllGames', async (req, res) =>
 {
- 
   /* incoming: Any number of the following
   id, averageRating, description, genre[], name, platform [], userCount, year
 
@@ -128,6 +126,7 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
               userCount: game.userCount
           }
           results.push(temp)
+
       })
     }
     else{
@@ -137,6 +136,7 @@ gameDbRoute_router.post('/searchAllGames', async (req, res) =>
     res.status(200).json(results)
   }catch{
     res.status(500).json("Internal Server error")
+
   }
   
 });
@@ -190,9 +190,6 @@ gameDbRoute_router.post('/deleteGame', authenticate_token,async (req, res)=>{
   }catch{
     res.status(403).json({message: "authentication error"})
   }
-  
-  
-
 })
 
 module.exports = gameDbRoute_router;
