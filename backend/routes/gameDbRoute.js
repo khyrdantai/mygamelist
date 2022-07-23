@@ -177,8 +177,11 @@ gameDbRoute_router.post('/deleteGame', authenticate_token,async (req, res)=>{
           let {_id, id} = req.body
           userID = mongoose.Types.ObjectId(_id)
     
-          const response = await db.collection('Users').updateOne({_id:userID}, {$pull: {"games":{id:id}}})
-          res.status(200).json({message: "delete successfull"})
+          const response = await db.collection('Users').updateOne({_id:userID}, {$pull: {games: {id:id}}})
+          if(response.modifiedCount >0){
+            return res.status(200).json(response)
+          }
+          res.status(200).json({message: "Error"})
         }catch{
           res.status(400).json({message: "failed to delete game"})
         }
