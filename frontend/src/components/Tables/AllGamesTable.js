@@ -15,7 +15,9 @@ import GameShowModal from '../Modals/GameShowModal';
 //     </Cell>
 //   );
 // };
+
 let showModal = false;
+
 
 class AllGamesTable extends Component 
 {
@@ -28,7 +30,8 @@ class AllGamesTable extends Component
         {
             sortType: 'desc',
             sortColumn: '',
-            variable: <div></div>
+            variable: <div></div>,
+            showModal: false
         }
     }
 
@@ -76,18 +79,22 @@ class AllGamesTable extends Component
         //alert(e.detail);
         
         
+        
         if(e.detail === 2)
         {
           console.log("yayyyy");
-
+          //alert(typeof(rowData));
+          //this.setState({showModal: true});
+          //alert(this.state.showModal);
           showModal = true;
           this.setState(
             {
               
               variable:  
-                        <GameShowModal
+                        <div><GameShowModal
                           show={showModal}
-                        />
+                          rowData={rowData}
+                        /></div>
             
             }
             
@@ -97,14 +104,14 @@ class AllGamesTable extends Component
         }
         else
         {
-          showModal = false;
+          //this.state.showModal = false;
+          //alert(this.state.showModal);
           this.setState(
             {
               
               variable:  
-                        <GameShowModal
-                          show={showModal}
-                        />
+                        <div>
+                        </div>
             
             }
             

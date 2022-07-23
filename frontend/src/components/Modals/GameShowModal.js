@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button, Form} from 'react-bootstrap';
 
 class GameShowModal extends Component
 {
@@ -37,15 +37,21 @@ class GameShowModal extends Component
 
         return(
             <div>
-                 <Modal show={this.props.show} onHide={() => {this.handleClose()}}>
+                 <Modal show={this.state.show} onHide={() => {this.handleClose()}}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            
+                            {this.props.rowData.name}
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                      
-                       hello
+                        <Form>
+                            <Form.Group className ="mb-3" controlid="formPlatforms">
+                                platforms: {this.props.rowData.platforms}
+                            </Form.Group>
+                            <Form.Group className ="mb-3" controlid="formGenres">
+                                genres: {this.props.rowData.genre}
+                            </Form.Group>
+                      </Form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => {this.handleClose()}}>Close</Button>
