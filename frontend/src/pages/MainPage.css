@@ -6,3 +6,8 @@
 .consoleText{
     padding-top: 20px;
 }
+
+body{
+    /* makes the background black */
+    background: #000;
+}
